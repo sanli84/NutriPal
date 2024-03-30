@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">application</string>
+    <string name="login_title">NutriPal</string>
+    <string name="login_username">User name</string>
+    <string name="login_password">Password</string>
+    <string name="login_login">Login</string>
+    <string name="login_rememberPW">Remember Password</string>
+    <string name="login_forgetPW"><u>Forget password?</u></string>
+    <string name="home_line">Line</string>
+    <string name="home_nutripal">NutriPal</string>
+    <string name="home_today">\t\tToday</string>
+    <string name="home_calorie">Calorie</string>
+    <string name="home_formula">surplus = target - food - exercise</string>
+    <string name="home_target">\tTarget\t\t\t%s%s%s</string>
+    <string name="home_food">\tFood\t\t\t\t%s%s%s</string>
+    <string name="home_exercise">\tExercise\t\t%s%s%s</string>
+    <string name="home_exercise_word">exercise</string>
+    <string name="home_exercise_calorie">\tcalorie</string>
+    <string name="home_exercise_hour">\thour</string>
+    <string name="home_steps_word">steps</string>
+    <string name="home_steps_steps">\tsteps</string>
+    <string name="home_steps_target">target:\t</string>
+    <string name="home_weight_word">weight</string>
+    <string name="home_weight_inpast">in\tpast\t90\tdays</string>
+    <string name="meals_remaining">REMAINING CALORIES</string>
+    <string name="meals_minus">-</string>
+    <string name="meals_plus">+</string>
+    <string name="meals_equal">=</string>
+    <string name="meals_target">target</string>
+    <string name="meals_food">food</string>
+    <string name="meals_exercise">exercise</string>
+    <string name="meals_breakfast_word">Breakfast</string>
+    <string name="carbs_word">carbs</string>
+    <string name="fat_word">fat</string>
+    <string name="protein_word">protein</string>
+    <string name="placeholder">\t%s%s%s</string>
+    <string name="meals_lunch_word">Lunch</string>
+    <string name="meals_dinner_word">Dinner</string>
+    <string name="guide_home">Home</string>
+    <string name="guide_diary">Diary</string>
+    <string name="home_macronutrients_word">Macronutrients</string>
+
+
+
+
+
+
+
+</resources>

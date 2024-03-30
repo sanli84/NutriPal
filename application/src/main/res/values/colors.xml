@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+    <color name="black">#FF000000</color>
+    <color name="blue">#0b0085</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="loginBG">#02DE7F</color>
+    <color name="loginHint">#026620</color>
+    <color name="border_color">#002b22</color>
+    <color name="button_color">#ffd1d1d1</color>
+    <color name="dark_grey">#737575</color>
+    <color name="icon_blue">#1d5791</color>
+    <color name="icon_yellow">#fdac13</color>
+    <color name="icon_grey">#94999b</color>
+    <color name="icon_red">#f27c68</color>
+    <color name="cyan_blue">#18a89c</color>
+    <color name="purple">#3d0b6b</color>
+    <color name="orange">#f7be39</color>
+    <color name="light_blue">#2f60f5</color>
+
+
+
+
+
+
+
+
+</resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ButtonStyle" parent="Widget.AppCompat.Button">
+        <!-- 设置按钮的背景颜色 -->
+        <item name="android:backgroundTint">@color/button_color</item>
+        <!-- 设置按钮的文本颜色 -->
+        <item name="android:textColor">@color/black</item>
+        <!-- 设置按钮的字体大小 -->
+        <item name="android:textSize">16sp</item>
+        <item name="android:text">Login</item>
+    </style>
+
+    <style name="ButtonStyle_meals" parent="Widget.AppCompat.Button">
+        <!-- 设置按钮的背景颜色 -->
+        <!-- 设置按钮的文本颜色 -->
+        <item name="android:textColor">@color/icon_red</item>
+        <!-- 设置按钮的字体大小 -->
+        <item name="android:textSize">14sp</item>
+        <item name="android:text">Add Food</item>
+    </style>
+
+    <style name="EmptyRadioButtonStyle" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@null</item>
+    </style>
+
+</resources>
