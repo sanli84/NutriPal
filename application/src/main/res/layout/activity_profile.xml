@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/profile_personal_info"
+        android:fontFamily="@font/home_child_font"
+        android:textSize="20sp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/ProfileTextViewStyle"
+                    android:text="@string/profile_username"
+                    />
+
+                <EditText
+                    android:inputType="text"
+                    style="@style/ProfileEditTextStyle"
+                    android:maxLength="20"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/ProfileTextViewStyle"
+                    android:text="@string/profile_photo"
+                    />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"
+                    android:padding="2dp"
+                    android:src="@drawable/crying_cat"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/ProfileTextViewStyle"
+                    android:text="@string/profile_birth"
+                    />
+
+                <TextView
+                    android:id="@+id/profile_birth_tv"
+                    android:layout_width="70dp"
+                    style="@style/ProfileEditTextStyle"
+                    android:maxLength="20"
+                    android:gravity="end"
+                    android:text="@string/unfilled"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/ProfileTextViewStyle"
+                    android:text="@string/profile_height"
+                    />
+
+                <EditText
+                    android:layout_width="70dp"
+                    style="@style/ProfileEditTextStyle"
+                    android:maxLength="20"
+                    android:gravity="end"
+                    android:text="@string/unfilled"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</LinearLayout>
