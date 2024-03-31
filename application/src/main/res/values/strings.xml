@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">application</string>
+    <string name="unfilled">unfilled</string>
     <string name="login_title">NutriPal</string>
     <string name="login_username">User name</string>
     <string name="login_password">Password</string>
@@ -39,11 +40,11 @@
     <string name="guide_home">Home</string>
     <string name="guide_diary">Diary</string>
     <string name="home_macronutrients_word">Macronutrients</string>
-
-
-
-
-
+    <string name="profile_personal_info">Personal Information</string>
+    <string name="profile_username">Username</string>
+    <string name="profile_photo">Profile photo</string>
+    <string name="profile_birth">Birth</string>
+    <string name="profile_height">Height</string>
 
 
 </resources>

@@ -24,4 +24,30 @@
         <item name="android:button">@null</item>
     </style>
 
+    <style name="ProfileTextViewStyle" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_marginStart">15dp</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginTop">10dp</item>
+
+    </style>
+
+    <style name="ProfileEditTextStyle" >
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/cyan_blue</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_marginEnd">15dp</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:background">@null</item>
+
+
+
+    </style>
+
 </resources>
