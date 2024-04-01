@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,9 +16,10 @@
         android:textSize="20sp"/>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/profile_cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="35dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,6 +57,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="10dp"
                     android:padding="2dp"
+
                     android:src="@drawable/crying_cat"
                     />
 
@@ -74,8 +76,9 @@
                     android:id="@+id/profile_birth_tv"
                     android:layout_width="70dp"
                     style="@style/ProfileEditTextStyle"
-                    android:maxLength="20"
+                    android:maxLength="25"
                     android:gravity="end"
+                    android:maxLines="1"
                     android:text="@string/unfilled"/>
 
             </RelativeLayout>
@@ -89,12 +92,76 @@
                     android:text="@string/profile_height"
                     />
 
-                <EditText
+                <TextView
+                    android:id="@+id/profile_height_tv"
                     android:layout_width="70dp"
                     style="@style/ProfileEditTextStyle"
+                    android:maxLength="25"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:text="@string/unfilled"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/ProfileTextViewStyle"
+                    android:text="@string/profile_weight"
+                    />
+
+                <TextView
+                    android:id="@+id/profile_weight_tv"
+                    android:layout_width="70dp"
+                    style="@style/ProfileTextViewStyle"
+                    android:layout_alignParentStart="false"
                     android:maxLength="20"
                     android:gravity="end"
+                    android:textColor="@color/cyan_blue"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="15dp"
                     android:text="@string/unfilled"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/ProfileTextViewStyle"
+                    android:text="@string/profile_age"
+                    />
+
+                <EditText
+                    android:id="@+id/profile_age_tv"
+                    android:inputType="text"
+                    style="@style/ProfileEditTextStyle"
+                    android:text="@string/unfilled"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="end"
+                    android:maxLength="20"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/ProfileTextViewStyle"
+                    android:text="@string/profile_target"
+                    />
+
+                <TextView
+                    android:id="@+id/profile_target_tv"
+                    style="@style/ProfileEditTextStyle"
+                    android:text="@string/unfilled"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="end"
+                    android:maxLength="20"/>
 
             </RelativeLayout>
 
@@ -105,6 +172,92 @@
 
     </androidx.cardview.widget.CardView>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="@string/Save"
+        android:layout_gravity="center"
+        style="@style/ButtonStyle_meals"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/guide_background"
+        android:padding="20dp"
+        android:orientation="vertical">
 
 
-</LinearLayout>
+        <RadioGroup
+            android:id="@+id/profile_guide_rg"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/profile_home_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/guide_home_selector"
+                android:layout_marginStart="54dp"
+                style="@style/EmptyRadioButtonStyle"
+                />
+
+            <RadioButton
+                android:id="@+id/profile_diary_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/guide_diary_selector"
+                android:layout_marginStart="60dp"
+                style="@style/EmptyRadioButtonStyle"
+                />
+
+            <RadioButton
+                android:id="@+id/profile_profile_btn"
+                android:layout_width="30dp"
+                android:layout_height="33dp"
+                android:background="@drawable/guide_profile_selector"
+                android:layout_marginStart="61dp"
+                android:layout_marginTop="2dp"
+                style="@style/EmptyRadioButtonStyle"
+                />
+
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="54dp"
+                android:text="@string/guide_home"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="63dp"
+                android:text="@string/guide_diary"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="62dp"
+                android:text="@string/guide_diary"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</FrameLayout>

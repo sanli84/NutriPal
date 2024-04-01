@@ -609,7 +609,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/guide_home_selector"
-                android:layout_marginStart="100dp"
+                android:layout_marginStart="54dp"
                 style="@style/EmptyRadioButtonStyle"
                 />
 
@@ -618,7 +618,17 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/guide_diary_selector"
-                android:layout_marginStart="100dp"
+                android:layout_marginStart="60dp"
+                style="@style/EmptyRadioButtonStyle"
+                />
+
+            <RadioButton
+                android:id="@+id/meals_profile_btn"
+                android:layout_width="30dp"
+                android:layout_height="33dp"
+                android:background="@drawable/guide_profile_selector"
+                android:layout_marginStart="61dp"
+                android:layout_marginTop="2dp"
                 style="@style/EmptyRadioButtonStyle"
                 />
 
@@ -633,14 +643,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
+                android:layout_marginStart="54dp"
                 android:text="@string/guide_home"
                 android:textSize="15sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="104dp"
+                android:layout_marginStart="63dp"
+                android:text="@string/guide_diary"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="62dp"
                 android:text="@string/guide_diary"
                 android:textSize="15sp" />
 

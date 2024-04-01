@@ -76,6 +76,8 @@ public class HomeActivity extends AppCompatActivity implements RadioGroup.OnChec
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if(checkedId == R.id.home_diary_btn){
             startActivity(new Intent(HomeActivity.this, MealsActivity.class));
+        } else if (checkedId == R.id.home_profile_btn) {
+            startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
         }
     }
 

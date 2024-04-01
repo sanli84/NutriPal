@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">application</string>
     <string name="unfilled">unfilled</string>
+    <string name="Save">Save</string>
+    <string name="KG">KG</string>
+    <string name="cm">cm</string>
+    <string name="OK">OK</string>
     <string name="login_title">NutriPal</string>
     <string name="login_username">User name</string>
     <string name="login_password">Password</string>
@@ -45,6 +49,11 @@
     <string name="profile_photo">Profile photo</string>
     <string name="profile_birth">Birth</string>
     <string name="profile_height">Height</string>
+    <string name="profile_weight">Weight</string>
+    <string name="profile_age">Age</string>
+    <string name="profile_target">Target Weight</string>
+    <string name="profile_enterHeight">Enter your height:</string>
+    <string name="profile_enterWeight">Enter your weight:</string>
 
 
 </resources>

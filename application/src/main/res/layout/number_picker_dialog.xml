@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="400dp"
+    android:orientation="vertical"
+    android:layout_marginTop="50dp">
+
+    <TextView
+        android:id="@+id/np_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/profile_enterWeight"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:fontFamily="@font/home_child_font" />
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="300dp"
+        android:layout_margin="20dp"
+        android:orientation="horizontal">
+
+        <NumberPicker
+            android:id="@+id/numberPicker"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:layout_marginStart="30dp"/>
+
+        <TextView
+            android:id="@+id/unit_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/KG"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="30dp"
+            android:textSize="30sp" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/okButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:text="@string/OK" />
+
+</RelativeLayout>

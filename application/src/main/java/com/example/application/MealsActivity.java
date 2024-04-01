@@ -30,6 +30,8 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if(checkedId == R.id.meals_home_btn){
             startActivity(new Intent(MealsActivity.this, HomeActivity.class));
+        } else if (checkedId == R.id.meals_profile_btn) {
+            startActivity(new Intent(MealsActivity.this, ProfileActivity.class));
         }
     }
 }
