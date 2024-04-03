@@ -67,6 +67,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profile_height_tv.setOnClickListener(this);
         profile_target_tv = findViewById(R.id.profile_target_tv);
         profile_target_tv.setOnClickListener(this);
+        profile_age_tv = findViewById(R.id.profile_age_tv);
         Button profile_save_btn = findViewById(R.id.profile_save_btn);
         profile_save_btn.setOnClickListener(this);
 
@@ -106,7 +107,21 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
 
         profile_username_et.setText(mHelper.getCurrentUsername());
+        User currentUser = mHelper.getUser(mHelper.getCurrentUsername());
+        profile_username_et.setText(currentUser.name);
+        profile_age_tv.setText(String.valueOf(currentUser.age));
 
+        profile_birth_tv.setText(currentUser.birth);
+        profile_weight_tv.setText(String.valueOf(currentUser.real_weight));
+        profile_height_tv.setText(String.valueOf(currentUser.height));
+        profile_target_tv.setText(String.valueOf(currentUser.target_weight));
+        String photoFileName = String.format("photo_%s.jpg",currentUser.name); // 替换为你的照片文件名
+
+        String filePath = getFilesDir().getAbsolutePath() + "/photos/";
+        String photoFilePath = filePath + photoFileName;
+
+        Uri photoUri = Uri.parse("file://" + photoFilePath);
+        profile_photo_iv.setImageURI(photoUri);
 
     }
 

@@ -181,4 +181,22 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
     public String getCurrentUsername(){
         return mHelper.current_username;
     }
+
+    public User getUser(String username){
+        User user = new User();
+
+        Cursor cursor = mRDB.query(TABLE_NAME_USER_INFO, null, "name=?", new String[]{username}, null, null, null);
+        while (cursor.moveToNext()){
+
+            user.id = cursor.getInt(0);
+            user.name = cursor.getString(1);
+            user.photo_name = cursor.getString(2);
+            user.birth = cursor.getString(3);
+            user.height = cursor.getInt(4);
+            user.real_weight = cursor.getInt(5);
+            user.age = cursor.getInt(6);
+            user.target_weight = cursor.getInt(7);
+        }
+        return user;
+    }
 }
