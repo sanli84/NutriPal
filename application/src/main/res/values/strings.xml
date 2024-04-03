@@ -2,15 +2,24 @@
     <string name="app_name">application</string>
     <string name="unfilled">unfilled</string>
     <string name="Save">Save</string>
+    <string name="Cancel">Cancel</string>
+    <string name="continue_word">Continue</string>
+    <string name="Register_vertical">R\ne\ng\ni\ns\nt\ne\nr</string>
     <string name="KG">KG</string>
-    <string name="cm">cm</string>
+    <string name="cm">\t\tcm</string>
     <string name="OK">OK</string>
+    <string name="register_hint">hint:  input the username</string>
+    <string name="usernameExist">Username has existed!</string>
+    <string name="usernameAvailable">Username available!</string>
     <string name="login_title">NutriPal</string>
     <string name="login_username">User name</string>
     <string name="login_password">Password</string>
     <string name="login_login">Login</string>
+    <string name="login_confirm">Confirm password</string>
+    <string name="login_register">Register</string>
     <string name="login_rememberPW">Remember Password</string>
     <string name="login_forgetPW"><u>Forget password?</u></string>
+    <string name="register_EnterInfo">Enter your personal information</string>
     <string name="home_line">Line</string>
     <string name="home_nutripal">NutriPal</string>
     <string name="home_today">\t\tToday</string>
@@ -54,6 +63,8 @@
     <string name="profile_target">Target Weight</string>
     <string name="profile_enterHeight">Enter your height:</string>
     <string name="profile_enterWeight">Enter your weight:</string>
+    <string name="profile_enterTarget">Enter your target weight:</string>
+
 
 
 </resources>

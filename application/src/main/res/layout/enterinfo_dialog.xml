@@ -2,21 +2,22 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="400dp"
+    android:layout_height="600dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="40dp"
+    android:layout_gravity="center">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/profile_personal_info"
+        android:text="@string/register_EnterInfo"
         android:fontFamily="@font/home_child_font"
         android:textSize="20sp"/>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/profile_cv"
+        android:id="@+id/info_cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp">
@@ -36,7 +37,7 @@
                     />
 
                 <EditText
-                    android:id="@+id/profile_username_et"
+                    android:id="@+id/info_username_et"
                     android:inputType="text"
                     style="@style/ProfileEditTextStyle"
                     android:maxLength="20"/>
@@ -53,7 +54,7 @@
                     />
 
                 <ImageView
-                    android:id="@+id/profile_photo_iv"
+                    android:id="@+id/info_photo_iv"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
@@ -75,7 +76,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/profile_birth_tv"
+                    android:id="@+id/info_birth_tv"
                     android:layout_width="70dp"
                     style="@style/ProfileEditTextStyle"
                     android:maxLength="25"
@@ -95,7 +96,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/profile_height_tv"
+                    android:id="@+id/info_height_tv"
                     style="@style/ProfileEditTextStyle"
                     android:layout_width="70dp"
                     android:layout_marginEnd="20dp"
@@ -104,7 +105,7 @@
                     android:text="@string/unfilled" />
 
                 <TextView
-                    android:id="@+id/profile_height_unit_tv"
+                    android:id="@+id/info_height_unit_tv"
                     android:layout_width="wrap_content"
                     style="@style/ProfileEditTextStyle"
                     android:maxLength="25"
@@ -125,7 +126,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/profile_weight_tv"
+                    android:id="@+id/info_weight_tv"
                     android:layout_width="70dp"
                     style="@style/ProfileEditTextStyle"
                     android:layout_alignParentStart="false"
@@ -136,7 +137,7 @@
                     android:text="@string/unfilled"/>
 
                 <TextView
-                    android:id="@+id/profile_weight_unit_tv"
+                    android:id="@+id/info_weight_unit_tv"
                     android:layout_width="wrap_content"
                     style="@style/ProfileEditTextStyle"
                     android:gravity="end"
@@ -155,7 +156,7 @@
                     />
 
                 <EditText
-                    android:id="@+id/profile_age_tv"
+                    android:id="@+id/info_age_tv"
                     android:inputType="text"
                     android:layout_width="70dp"
                     style="@style/ProfileEditTextStyle"
@@ -178,7 +179,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/profile_target_tv"
+                    android:id="@+id/info_target_tv"
                     android:layout_width="70dp"
                     style="@style/ProfileEditTextStyle"
                     android:text="@string/unfilled"
@@ -204,92 +205,27 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/profile_save_btn"
+        android:id="@+id/register_save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:text="@string/Save"
+        android:text="@string/continue_word"
         android:layout_gravity="center"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="60dp"
         style="@style/ButtonStyle_meals"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_gravity="bottom"
-        android:background="@drawable/guide_background"
-        android:padding="20dp"
-        android:orientation="vertical">
+    <Button
+        android:id="@+id/register_cancel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="@string/Cancel"
+        android:layout_gravity="center"
+        android:layout_marginTop="120dp"
+        android:layout_marginStart="60dp"
+        style="@style/ButtonStyle_meals"/>
 
-
-        <RadioGroup
-            android:id="@+id/profile_guide_rg"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="40dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/profile_home_btn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/guide_home_selector"
-                android:layout_marginStart="54dp"
-                style="@style/EmptyRadioButtonStyle"
-                />
-
-            <RadioButton
-                android:id="@+id/profile_diary_btn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/guide_diary_selector"
-                android:layout_marginStart="60dp"
-                style="@style/EmptyRadioButtonStyle"
-                />
-
-            <RadioButton
-                android:id="@+id/profile_profile_btn"
-                android:layout_width="30dp"
-                android:layout_height="33dp"
-                android:background="@drawable/guide_profile_selector"
-                android:layout_marginStart="61dp"
-                android:layout_marginTop="2dp"
-                style="@style/EmptyRadioButtonStyle"
-                />
-
-
-        </RadioGroup>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="54dp"
-                android:text="@string/guide_home"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="63dp"
-                android:text="@string/guide_diary"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="62dp"
-                android:text="@string/guide_diary"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-
-
-    </LinearLayout>
 
 
 </FrameLayout>

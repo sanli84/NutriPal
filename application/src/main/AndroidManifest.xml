@@ -10,7 +10,7 @@
         android:theme="@style/Base.Theme.NutriPal">
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".HomeActivity"
             android:exported="true"
             android:theme="@style/Base.Theme.NutriPal">
         </activity>
@@ -28,7 +28,7 @@
         </activity>
 
         <activity
-            android:name=".HomeActivity"
+            android:name=".LoginActivity"
             android:exported="true"
             android:theme="@style/Base.Theme.NutriPal">
             <intent-filter>
@@ -38,5 +38,7 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/login_register"
+        android:textSize="20sp" />
+
+    <!-- 输入用户名的 EditText -->
+    <EditText
+        android:id="@+id/register_Username_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/login_username" />
+
+    <TextView
+        android:id="@+id/register_hint_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:textColor="@color/cyan_blue"
+        android:text="@string/register_hint"
+        android:layout_marginStart="10dp"
+        android:textSize="15sp" />
+
+    <!-- 输入密码的 EditText -->
+    <EditText
+
+        android:id="@+id/register_Password_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/login_password"
+        android:inputType="textPassword" />
+
+    <!-- 输入确认密码的 EditText -->
+    <EditText
+        android:id="@+id/register_Confirm_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/login_confirm"
+        android:inputType="textPassword" />
+
+    <!-- 注册和取消按钮 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/register_Register_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/login_register" />
+
+        <Button
+            android:id="@+id/register_Cancel_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/Cancel" />
+
+    </LinearLayout>
+</LinearLayout>

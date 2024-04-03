@@ -17,88 +17,104 @@
         android:textColor="@color/black"
         android:textSize="50sp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="30dp">
-
-
-        <EditText
-            android:id="@+id/login_username_et"
-            android:layout_width="200dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="250dp"
-            android:background="@drawable/edittext_shape"
-            android:gravity="center"
-            android:hint="@string/login_username"
-            android:inputType="text"
-            android:maxLines="1"
-            android:textColorHint="@color/loginHint"
-            android:textSize="16sp" />
-
-
-        <EditText
-            android:id="@+id/login_password_et"
-            android:layout_width="200dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/edittext_shape"
-            android:gravity="center"
-            android:hint="@string/login_password"
-            android:inputType="textPassword"
-
-            android:maxLines="1"
-            android:textColorHint="@color/loginHint"
-            android:textSize="16sp" />
+        android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/login_btn"
-            style="@style/ButtonStyle"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="30dp"
-            android:text="@string/login_login" />
+            android:id="@+id/login_register_btn"
+            android:layout_width="30dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="100dp"
+            android:gravity="center"
+            android:text="@string/Register_vertical"
+            android:background="@color/loginRegister"/>
 
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="30dp">
 
-            <CheckBox
-                android:id="@+id/login_remember_cb"
-                android:layout_width="30dp"
+            <EditText
+                android:id="@+id/login_username_et"
+                android:layout_width="200dp"
                 android:layout_height="30dp"
+                android:layout_marginTop="250dp"
+                android:background="@drawable/edittext_shape"
                 android:gravity="center"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="10dp"/>
+                android:hint="@string/login_username"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColorHint="@color/loginHint"
+                android:textSize="16sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/login_rememberPW"
-                android:layout_alignStart="@id/login_remember_cb"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="15dp"/>
 
+            <EditText
+                android:id="@+id/login_password_et"
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/edittext_shape"
+                android:gravity="center"
+                android:hint="@string/login_password"
+                android:inputType="textPassword"
+
+                android:maxLines="1"
+                android:textColorHint="@color/loginHint"
+                android:textSize="16sp" />
 
             <Button
+                android:id="@+id/login_btn"
+                style="@style/ButtonStyle"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/login_login" />
 
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:text="@string/login_forgetPW"
-                android:textColor="@color/blue"
-                android:layout_alignParentEnd="true"
-                android:textSize="11sp" />
+                android:orientation="horizontal">
 
-        </RelativeLayout>
+                <CheckBox
+                    android:id="@+id/login_remember_cb"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login_rememberPW"
+                    android:layout_alignStart="@id/login_remember_cb"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="15dp"/>
 
 
-    </LinearLayout>
+                <Button
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:text="@string/login_forgetPW"
+                    android:textColor="@color/blue"
+                    android:layout_alignParentEnd="true"
+                    android:textSize="11sp" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
 
 
 </LinearLayout>

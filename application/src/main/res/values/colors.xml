@@ -6,6 +6,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="loginBG">#02DE7F</color>
     <color name="loginHint">#026620</color>
+    <color name="loginRegister">#469100</color>
     <color name="border_color">#002b22</color>
     <color name="button_color">#ffd1d1d1</color>
     <color name="dark_grey">#737575</color>
