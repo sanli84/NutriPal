@@ -3,7 +3,9 @@
     <string name="unfilled">unfilled</string>
     <string name="Save">Save</string>
     <string name="Cancel">Cancel</string>
+    <string name="Verify">Verify</string>
     <string name="continue_word">Continue</string>
+    <string name="email">Email address</string>
     <string name="Register_vertical">R\ne\ng\ni\ns\nt\ne\nr</string>
     <string name="KG">KG</string>
     <string name="cm">\t\tcm</string>
@@ -20,6 +22,10 @@
     <string name="login_rememberPW">Remember Password</string>
     <string name="login_forgetPW"><u>Forget password?</u></string>
     <string name="register_EnterInfo">Enter your personal information</string>
+    <string name="verify_title">Verify your email</string>
+    <string name="verify_hint">Input your email address</string>
+    <string name="verify_code">Verify code</string>
+    <string name="verify_send">Send</string>
     <string name="home_line">Line</string>
     <string name="home_nutripal">NutriPal</string>
     <string name="home_today">\t\tToday</string>

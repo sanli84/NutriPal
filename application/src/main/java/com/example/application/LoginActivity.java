@@ -43,11 +43,25 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.application.database.NutriPalDBHelper;
 import com.example.application.entity.User;
 import com.example.application.util.SaveImageUtil;
+import com.example.application.util.SendEmail;
 import com.example.application.util.ToastUtil;
 
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Calendar;
+
+import java.util.Date;
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
@@ -67,16 +81,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView info_height_tv;
     private TextView info_target_tv;
     private ImageView info_photo_iv;
+    private EditText login_username_et;
     private Button register_Register_btn, register_Cancel_btn;
     private Button info_continue_btn, info_Cancel_btn;
     private TextView register_hint_tv;
     private ActivityResultLauncher<String> galleryLauncher;
-    private Dialog dialogInfo;
+    private Dialog dialogInfo, dialogVerify;
+    private Button verify_send_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        login_username_et = findViewById(R.id.login_username_et);
+
         Button login_btn = findViewById(R.id.login_btn);
         login_btn.setOnClickListener(this);
         username_et = findViewById(R.id.login_username_et);
@@ -143,6 +161,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         info_photo_iv = dialogInfo.findViewById(R.id.info_photo_iv);
         info_username_et = dialogInfo.findViewById(R.id.info_username_et);
 
+        dialogVerify = new Dialog(this);
+        dialogVerify.setContentView(R.layout.verifyemail_dialog);
+        verify_send_btn = dialogVerify.findViewById(R.id.verify_send_btn);
+        verify_send_btn.setOnClickListener(this);
     }
 
     @Override
@@ -166,7 +188,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (v.getId() == R.id.login_btn) {
 
             if (checkPassword()) {
-
+                mHelper.setCurrentUsername(login_username_et.getText().toString());
+                String testUsername = mHelper.getCurrentUsername();
+                Log.d("llxl", String.format("current username is %s", testUsername));
                 startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                 Toast.makeText(getApplicationContext(), "Successfully Login!", Toast.LENGTH_SHORT).show();
 
@@ -185,13 +209,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         } else if (v.getId() == R.id.login_register_btn) {
             showRegisterDialog();
-        } else if (v.getId() == R.id.info_birth_tv){
+        } else if (v.getId() == R.id.info_birth_tv) {
             Calendar calendar = Calendar.getInstance();
             DatePickerDialog dialog = new DatePickerDialog(this,
                     android.R.style.Theme_Holo_Dialog,
                     this,
                     calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+                    calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
             dialog.show();
         } else if (v.getId() == R.id.info_weight_tv) {
             showWeightPickerDialog(v);
@@ -203,25 +227,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             String name = (info_username_et.getText().toString()).replaceAll("\\s+", "");
             int age = Integer.parseInt(info_age_tv.getText().toString());
-            String photo_name = SaveImageUtil.saveImageToInternalStorage(this,info_photo_iv,mHelper.getCurrentUsername());
+            String photo_name = SaveImageUtil.saveImageToInternalStorage(this, info_photo_iv, mHelper.getCurrentUsername());
             String birth = info_birth_tv.getText().toString();
             int height = Integer.parseInt(info_height_tv.getText().toString());
             int real_weight = Integer.parseInt(info_weight_tv.getText().toString());
             int target_weight = Integer.parseInt(info_target_tv.getText().toString());
 
             //将用户信息保存至数据库
-            User user = new User(name,age,photo_name,birth,height,real_weight,target_weight);
+            User user = new User(name, age, photo_name, birth, height, real_weight, target_weight);
             boolean isExist = mHelper.userExistsInDatabase(user.name);
-            if (isExist){
+            if (isExist) {
 
                 ToastUtil.show(this, "Username occupied!");
-            }else{
-                if(mHelper.insert(user)>0){
+            } else {
+                if (mHelper.insert(user) > 0) {
                     ToastUtil.show(this, "Register successfully");
                     dialogInfo.dismiss();
+                    dialogVerify.show();
                 }
             }
 
+        } else if (v.getId() == R.id.verify_send_btn) {
+            buttonSendEmail();
         }
 
     }
@@ -253,10 +280,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String username = register_Username_et.getText().toString();
-                if (mHelper.userExistsInDatabase(username)){
+                if (mHelper.userExistsInDatabase(username)) {
                     register_hint_tv.setText(R.string.usernameExist);
                     register_hint_tv.setTextColor(ContextCompat.getColor(LoginActivity.this, R.color.icon_red));
-                }else{
+                } else {
                     register_hint_tv.setText(R.string.usernameAvailable);
                     register_hint_tv.setTextColor(ContextCompat.getColor(LoginActivity.this, R.color.icon_blue));
                 }
@@ -294,7 +321,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(LoginActivity.this, "Please check username or password", Toast.LENGTH_SHORT).show();
 
                 }
-                if(readyToContinue){
+                if (readyToContinue) {
                     mHelper.setCurrentUsername(username);
                     dialog.dismiss();
                     showEnterInfoDialog();
@@ -309,8 +336,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void showEnterInfoDialog() {
-
-
 
         info_username_et.setText(mHelper.getCurrentUsername());
 
@@ -328,6 +353,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mHelper.registerUser(username, password);
         Toast.makeText(this, "User registered successfully", Toast.LENGTH_SHORT).show();
     }
+
     private void openGallery() {
         galleryLauncher.launch("image/*");
     }
@@ -345,7 +371,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         info_age_tv.setText(age_string);
     }
 
-    public void showWeightPickerDialog(View v){
+    public void showWeightPickerDialog(View v) {
         View clicked = v;
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.number_picker_dialog);
@@ -355,7 +381,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Button okButton = dialog.findViewById(R.id.okButton);
         TextView title = dialog.findViewById(R.id.np_title_tv);
 
-        if (v.getId()==R.id.info_target_tv){
+        if (v.getId() == R.id.info_target_tv) {
             title.setText(R.string.profile_enterTarget);
         }
 
@@ -373,7 +399,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 // 可以获取NumberPicker的值并进行相应操作
                 int selectedValue = numberPicker.getValue();
                 String desc = String.format("%s", selectedValue);
-                if (clicked.getId() == R.id.info_weight_tv){
+                if (clicked.getId() == R.id.info_weight_tv) {
                     info_weight_tv.setText(desc);
                 } else if (clicked.getId() == R.id.info_target_tv) {
                     info_target_tv.setText(desc);
@@ -387,7 +413,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         dialog.show();
     }
 
-    public void showHeightPickerDialog(){
+    public void showHeightPickerDialog() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.number_picker_dialog);
 
@@ -421,5 +447,53 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // 显示Dialog
         dialog.show();
+    }
+
+    public void buttonSendEmail() {
+
+        try {
+            String stringSenderEmail = "sanli84lu@gmail.com";
+            String stringReceiverEmail = "1808708079@qq.com";
+            String stringPasswordSenderEmail = "ehjtjrzlawbtdsjc";
+
+            String stringHost = "smtp.gmail.com";
+
+            Properties properties = System.getProperties();
+
+            properties.put("mail.smtp.host", stringHost);
+            properties.put("mail.smtp.port", "587");
+            properties.setProperty("mail.smtp.starttls.enable", "true");
+            properties.put("mail.smtp.auth", "true");
+
+            javax.mail.Session session = Session.getInstance(properties, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(stringSenderEmail, stringPasswordSenderEmail);
+                }
+            });
+
+            MimeMessage mimeMessage = new MimeMessage(session);
+            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(stringReceiverEmail));
+
+            mimeMessage.setSubject("Subject: Android App email");
+            mimeMessage.setText("Hello 胡雨霄的老公");
+
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Transport.send(mimeMessage);
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+
+        } catch (AddressException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 }

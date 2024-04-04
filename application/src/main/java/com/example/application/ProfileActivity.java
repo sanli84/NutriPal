@@ -115,7 +115,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profile_weight_tv.setText(String.valueOf(currentUser.real_weight));
         profile_height_tv.setText(String.valueOf(currentUser.height));
         profile_target_tv.setText(String.valueOf(currentUser.target_weight));
-        String photoFileName = String.format("photo_%s.jpg",currentUser.name); // 替换为你的照片文件名
+        String photoFileName = String.format("photo_%s.jpg", currentUser.name); // 替换为你的照片文件名
 
         String filePath = getFilesDir().getAbsolutePath() + "/photos/";
         String photoFilePath = filePath + photoFileName;
@@ -126,7 +126,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -135,13 +134,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.profile_birth_tv){
+        if (v.getId() == R.id.profile_birth_tv) {
             Calendar calendar = Calendar.getInstance();
             DatePickerDialog dialog = new DatePickerDialog(this,
                     android.R.style.Theme_Holo_Dialog,
                     this,
                     calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+                    calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
             dialog.show();
         } else if (v.getId() == R.id.profile_weight_tv) {
             showWeightPickerDialog(v);
@@ -153,25 +152,26 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
             String name = (profile_username_et.getText().toString()).replaceAll("\\s+", "");
             int age = Integer.parseInt(profile_age_tv.getText().toString());
-            String photo_name = SaveImageUtil.saveImageToInternalStorage(this,profile_photo_iv,mHelper.getCurrentUsername());
+            String photo_name = SaveImageUtil.saveImageToInternalStorage(this, profile_photo_iv, name);
             String birth = profile_birth_tv.getText().toString();
             int height = Integer.parseInt(profile_height_tv.getText().toString());
             int real_weight = Integer.parseInt(profile_weight_tv.getText().toString());
             int target_weight = Integer.parseInt(profile_target_tv.getText().toString());
 
             //将用户信息保存至数据库
-            User user = new User(name,age,photo_name,birth,height,real_weight,target_weight);
+            User user = new User(name, age, photo_name, birth, height, real_weight, target_weight);
             boolean isExist = mHelper.userExistsInDatabase(user.name);
-            if (isExist){
 
-                if(mHelper.update(user)>0){
-                    ToastUtil.show(this, "Update successfully");
-                }
-            }else{
-                if(mHelper.insert(user)>0){
-                    ToastUtil.show(this, "Add successfully");
-                }
+            Log.d("tag:llxl","button_save clicked");
+            if ( mHelper.updatePWTable(user, mHelper.getCurrentUsername()) > 0 && mHelper.update(user) > 0) {
+                Log.d("llxl",String.format("user's name: %s",user.name));
+                mHelper.setCurrentUsername(user.name);
+                Log.d("llxl",String.format("current_username: %s",mHelper.getCurrentUsername()));
+
+                ToastUtil.show(this, "Update successfully");
+
             }
+
 
         }
     }
@@ -189,7 +189,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profile_age_tv.setText(age_string);
     }
 
-    public void showWeightPickerDialog(View v){
+    public void showWeightPickerDialog(View v) {
         View clicked = v;
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.number_picker_dialog);
@@ -199,7 +199,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Button okButton = dialog.findViewById(R.id.okButton);
         TextView title = dialog.findViewById(R.id.np_title_tv);
 
-        if (v.getId()==R.id.profile_target_tv){
+        if (v.getId() == R.id.profile_target_tv) {
             title.setText(R.string.profile_enterTarget);
         }
 
@@ -217,7 +217,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 // 可以获取NumberPicker的值并进行相应操作
                 int selectedValue = numberPicker.getValue();
                 String desc = String.format("%s", selectedValue);
-                if (clicked.getId() == R.id.profile_weight_tv){
+                if (clicked.getId() == R.id.profile_weight_tv) {
                     profile_weight_tv.setText(desc);
                 } else if (clicked.getId() == R.id.profile_target_tv) {
                     profile_target_tv.setText(desc);
@@ -231,7 +231,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         dialog.show();
     }
 
-    public void showHeightPickerDialog(){
+    public void showHeightPickerDialog() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.number_picker_dialog);
 
@@ -269,7 +269,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        if(checkedId == R.id.profile_home_btn){
+        if (checkedId == R.id.profile_home_btn) {
             startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
         } else if (checkedId == R.id.profile_diary_btn) {
             startActivity(new Intent(ProfileActivity.this, MealsActivity.class));

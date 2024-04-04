@@ -142,7 +142,27 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
         values.put("height", user.height);
         values.put("real_weight", user.real_weight);
         values.put("target_weight", user.target_weight);
-        return mWDB.update(TABLE_NAME_USER_INFO, values, "name=?", new String[]{user.name});
+        return mWDB.update(TABLE_NAME_USER_INFO, values, "name=?", new String[]{mHelper.getCurrentUsername()});
+    }
+
+    public long updatePWTable(User user, String current_username){
+        String password = getPassword(current_username);
+        ContentValues values = new ContentValues();
+        values.put("user_name", user.name);
+        values.put("password", password);
+        Log.d("llxl","values have been put");
+        return mWDB.update(TABLE_NAME_USER_PASSWORD, values, "user_name=?", new String[]{current_username});
+    }
+
+    public String getPassword(String current_username){
+
+        Cursor cursor = mRDB.query(TABLE_NAME_USER_PASSWORD, null, "user_name=?", new String[]{current_username}, null, null, null);
+        while (cursor.moveToNext()){
+
+            String password = cursor.getString(1);
+            return password;
+        }
+        return null;
     }
 
     public long registerUser(String username,String password){
@@ -179,6 +199,8 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
     }
 
     public String getCurrentUsername(){
+
+//        Log.d("llxl",String.format("current_username: %s",mHelper.getCurrentUsername()));
         return mHelper.current_username;
     }
 
