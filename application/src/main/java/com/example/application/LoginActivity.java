@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -52,6 +53,7 @@ import java.util.Calendar;
 
 import java.util.Date;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -72,7 +74,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CheckBox login_remember_cb;
     private NutriPalDBHelper mHelper;
     private Button register_btn;
-
+    private CountDownTimer countDownTimer;
     private EditText register_Username_et, register_Password_et, register_ConfirmPassword_et;
     private EditText info_username_et;
     private EditText info_age_tv;
@@ -82,12 +84,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView info_target_tv;
     private ImageView info_photo_iv;
     private EditText login_username_et;
+    private EditText verify_email_et;
     private Button register_Register_btn, register_Cancel_btn;
     private Button info_continue_btn, info_Cancel_btn;
     private TextView register_hint_tv;
     private ActivityResultLauncher<String> galleryLauncher;
     private Dialog dialogInfo, dialogVerify;
     private Button verify_send_btn;
+    private boolean isCountingDown = false;
+    private final long COUNTDOWN_TIME_MILLIS = 60000;
+    private EditText verify_code_et;
+    private String inputCode;
+    private Button verify_verify_btn;
+    private Button verify_Cancel_btn;
+    private String targetEmail;
+    private Button register_cancel_btn;
+    private Dialog dialogForget;
+    private EditText forget_username_et;
+    private Button forget_send_btn;
+    private Button forget_verify_btn;
+    private Button forgetCancelBtn;
+    private Dialog dialogSetPW;
+    private Button setPW_continue_btn;
+    private Button login_forget_btn;
+    private EditText forget_code_et;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +115,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         login_username_et = findViewById(R.id.login_username_et);
 
+        login_forget_btn = findViewById(R.id.login_forget_btn);
+        login_forget_btn.setOnClickListener(this);
         Button login_btn = findViewById(R.id.login_btn);
         login_btn.setOnClickListener(this);
         username_et = findViewById(R.id.login_username_et);
@@ -160,11 +182,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         info_target_tv.setOnClickListener(this);
         info_photo_iv = dialogInfo.findViewById(R.id.info_photo_iv);
         info_username_et = dialogInfo.findViewById(R.id.info_username_et);
-
+        register_cancel_btn = dialogInfo.findViewById(R.id.register_cancel_btn);
+        register_cancel_btn.setOnClickListener(this);
         dialogVerify = new Dialog(this);
         dialogVerify.setContentView(R.layout.verifyemail_dialog);
         verify_send_btn = dialogVerify.findViewById(R.id.verify_send_btn);
         verify_send_btn.setOnClickListener(this);
+        verify_email_et = dialogVerify.findViewById(R.id.verify_email_et);
+        verify_email_et.setOnClickListener(this);
+        verify_code_et = dialogVerify.findViewById(R.id.verify_code_et);
+        verify_verify_btn = dialogVerify.findViewById(R.id.verify_verify_btn);
+        verify_verify_btn.setOnClickListener(this);
+        verify_Cancel_btn = dialogVerify.findViewById(R.id.verify_Cancel_btn);
+        verify_Cancel_btn.setOnClickListener(this);
+
+        dialogForget = new Dialog(this);
+        dialogForget.setContentView(R.layout.forget_dialog);
+        forget_username_et = dialogForget.findViewById(R.id.forget_username_et);
+        forget_send_btn = dialogForget.findViewById(R.id.forget_send_btn);
+        forget_send_btn.setOnClickListener(this);
+        forget_verify_btn = dialogForget.findViewById(R.id.forget_verify_btn);
+        forgetCancelBtn = dialogForget.findViewById(R.id.forget_Cancel_btn);
+        forget_verify_btn.setOnClickListener(this);
+        forgetCancelBtn.setOnClickListener(this);
+        forget_code_et = dialogForget.findViewById(R.id.forget_code_et);
+
+        dialogSetPW = new Dialog(this);
+        dialogSetPW.setContentView(R.layout.set_password_dialog);
+        setPW_continue_btn = dialogSetPW.findViewById(R.id.setPW_continue_btn);
+        setPW_continue_btn.setOnClickListener(this);
     }
 
     @Override
@@ -188,22 +234,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (v.getId() == R.id.login_btn) {
 
             if (checkPassword()) {
-                mHelper.setCurrentUsername(login_username_et.getText().toString());
-                String testUsername = mHelper.getCurrentUsername();
-                Log.d("llxl", String.format("current username is %s", testUsername));
-                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                Toast.makeText(getApplicationContext(), "Successfully Login!", Toast.LENGTH_SHORT).show();
-
-                String username = username_et.getText().toString();
-                String password = password_et.getText().toString();
-
-                mHelper.setCurrentUsername(username);
-                // 如果勾选了记住密码，将用户名和密码保存到SharedPreferences中
-                if (login_remember_cb.isChecked()) {
-                    editor.putString("username", username);
-                    editor.putString("password", password);
-                    editor.apply();
-                }
+                login();
             } else {
                 Toast.makeText(getApplicationContext(), "Password incorrect!", Toast.LENGTH_SHORT).show();
             }
@@ -225,30 +256,90 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             showWeightPickerDialog(v);
         } else if (v.getId() == R.id.register_save_btn) {
 
-            String name = (info_username_et.getText().toString()).replaceAll("\\s+", "");
-            int age = Integer.parseInt(info_age_tv.getText().toString());
-            String photo_name = SaveImageUtil.saveImageToInternalStorage(this, info_photo_iv, mHelper.getCurrentUsername());
-            String birth = info_birth_tv.getText().toString();
-            int height = Integer.parseInt(info_height_tv.getText().toString());
-            int real_weight = Integer.parseInt(info_weight_tv.getText().toString());
-            int target_weight = Integer.parseInt(info_target_tv.getText().toString());
+            try {
+                String name = (info_username_et.getText().toString()).replaceAll("\\s+", "");
 
-            //将用户信息保存至数据库
-            User user = new User(name, age, photo_name, birth, height, real_weight, target_weight);
-            boolean isExist = mHelper.userExistsInDatabase(user.name);
-            if (isExist) {
+                int age = Integer.parseInt(info_age_tv.getText().toString());
+                String photo_name = SaveImageUtil.saveImageToInternalStorage(this, info_photo_iv, mHelper.getCurrentUsername());
+                String birth = info_birth_tv.getText().toString();
+                int height = Integer.parseInt(info_height_tv.getText().toString());
+                int real_weight = Integer.parseInt(info_weight_tv.getText().toString());
+                int target_weight = Integer.parseInt(info_target_tv.getText().toString());
 
-                ToastUtil.show(this, "Username occupied!");
-            } else {
-                if (mHelper.insert(user) > 0) {
-                    ToastUtil.show(this, "Register successfully");
-                    dialogInfo.dismiss();
-                    dialogVerify.show();
+                //将用户信息保存至数据库
+                User user = new User(name, age, photo_name, birth, height, real_weight, target_weight);
+                boolean isExist = mHelper.userExistsInDatabase(user.name);
+                if (isExist) {
+
+                    ToastUtil.show(this, "Username occupied!");
+                } else {
+                    if (mHelper.insert(user) > 0) {
+                        ToastUtil.show(this, "Register successfully");
+                        dialogInfo.dismiss();
+                        dialogVerify.show();
+                    }
                 }
+            } catch (NumberFormatException e) {
+                ToastUtil.show(this, "Please enter complete valid information!");
             }
 
-        } else if (v.getId() == R.id.verify_send_btn) {
-            buttonSendEmail();
+        } else if (v.getId() == R.id.register_cancel_btn) {
+            dialogInfo.dismiss();
+        }  else if (v.getId() == R.id.verify_send_btn) {
+            if (!isCountingDown) {
+                targetEmail = verify_email_et.getText().toString();
+                startCountdown();
+                inputCode = buttonSendEmail(targetEmail);
+            }
+        } else if (v.getId() == R.id.verify_verify_btn) {
+            if (forget_code_et.getText().toString().equals(inputCode) && !inputCode.isEmpty()) {
+                login_username_et.setText(info_username_et.getText().toString());
+                password_et.setText(register_Password_et.getText().toString());
+                String username = info_username_et.getText().toString();
+                String password = register_Password_et.getText().toString();
+                registerUser(username, password, targetEmail);
+                login();
+            } else {
+                ToastUtil.show(this, "Incorrect verification code!");
+            }
+        } else if (v.getId() == R.id.verify_Cancel_btn) {
+            dialogVerify.dismiss();
+            mHelper.deleteUser(info_username_et.getText().toString());
+        }else if (v.getId() == R.id.login_forget_btn) {
+            dialogForget.show();
+        } else if (v.getId() == R.id.forget_send_btn) {
+            String username = forget_username_et.getText().toString();
+            String email = mHelper.getUserEmail(username);
+            if (email.isEmpty()){
+                ToastUtil.show(this, "User not found!");
+            }else{
+                if (!isCountingDown) {
+                    inputCode = buttonSendEmail(email);
+                    startCountdown();
+                    ToastUtil.show(this, "Code sent!");
+                }
+
+            }
+        } else if (v.getId() == R.id.forget_verify_btn) {
+            if (forget_code_et.getText().toString().equals(inputCode) && !inputCode.isEmpty()) {
+                mHelper.setCurrentUsername(forget_username_et.getText().toString());
+                dialogForget.dismiss();
+                dialogSetPW.show();
+            } else {
+                ToastUtil.show(this, "Incorrect verification code!");
+            }
+        }else if (v.getId() == R.id.forget_Cancel_btn) {
+            dialogForget.dismiss();
+        } else if (v.getId() == R.id.setPW_continue_btn) {
+            EditText setPW_pw1_et = dialogSetPW.findViewById(R.id.setPW_pw1_et);
+            EditText setPW_Confirm_et = dialogSetPW.findViewById(R.id.setPW_Confirm_et);
+            String pw1 = setPW_pw1_et.getText().toString();
+            String pw2 = setPW_Confirm_et.getText().toString();
+            if (pw1.equals(pw2)){
+                mHelper.updatePassword(pw1);
+                dialogSetPW.dismiss();
+                ToastUtil.show(this, "Password reset successfully!");
+            }
         }
 
     }
@@ -314,7 +405,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 // 检查用户名和密码是否有效，并执行注册操作
                 if (isValidInput(username, password, confirmPassword) && !isExist) {
                     // 执行注册操作
-                    registerUser(username, password);
+
                     readyToContinue = true;
                 } else {
                     // 显示错误消息或者做其他操作
@@ -329,7 +420,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             }
         });
-
 
         dialog.show();
 
@@ -349,8 +439,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     // 注册用户
-    private void registerUser(String username, String password) {
-        mHelper.registerUser(username, password);
+    private void registerUser(String username, String password, String targetEmail) {
+        mHelper.registerUser(username, password, targetEmail);
         Toast.makeText(this, "User registered successfully", Toast.LENGTH_SHORT).show();
     }
 
@@ -449,11 +539,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         dialog.show();
     }
 
-    public void buttonSendEmail() {
+    public String buttonSendEmail(String targetEmail) {
+
+        Random random = new Random();
+        String randomNumber = generateRandomNumber(6);
 
         try {
             String stringSenderEmail = "sanli84lu@gmail.com";
-            String stringReceiverEmail = "1808708079@qq.com";
             String stringPasswordSenderEmail = "ehjtjrzlawbtdsjc";
 
             String stringHost = "smtp.gmail.com";
@@ -473,10 +565,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             });
 
             MimeMessage mimeMessage = new MimeMessage(session);
-            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(stringReceiverEmail));
+            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(targetEmail));
 
-            mimeMessage.setSubject("Subject: Android App email");
-            mimeMessage.setText("Hello 胡雨霄的老公");
+            mimeMessage.setSubject("Verification code from NutriPal");
+            mimeMessage.setText(String.format("Hello, verification code is %s", randomNumber));
 
             Thread thread = new Thread(new Runnable() {
                 @Override
@@ -495,5 +587,70 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+
+        return randomNumber;
     }
+
+    public static String generateRandomNumber(int length) {
+        // 定义一个包含所有数字字符的字符串
+        String digits = "0123456789";
+        // 创建一个随机数生成器
+        Random random = new Random();
+        // 创建一个 StringBuilder 用于存储生成的随机数
+        StringBuilder sb = new StringBuilder(length);
+        // 生成指定长度的随机数
+        for (int i = 0; i < length; i++) {
+            // 从 digits 中随机选择一个字符，并将其添加到 StringBuilder 中
+            int index = random.nextInt(digits.length());
+            sb.append(digits.charAt(index));
+        }
+        // 将 StringBuilder 转换为字符串并返回
+        return sb.toString();
+    }
+
+    private void startCountdown() {
+        isCountingDown = true;
+        verify_send_btn.setEnabled(false); // 设置按钮不可点击
+        forget_send_btn.setEnabled(false);
+        countDownTimer = new CountDownTimer(COUNTDOWN_TIME_MILLIS, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // 更新按钮文本为倒计时时间
+                verify_send_btn.setText(millisUntilFinished / 1000 + "S");
+                forget_send_btn.setText(millisUntilFinished / 1000 + "S");
+            }
+
+            @Override
+            public void onFinish() {
+                // 倒计时结束，恢复按钮原始文本并可点击
+                verify_send_btn.setText(R.string.verify_send);
+                verify_send_btn.setEnabled(true); // 设置按钮可点击
+                forget_send_btn.setText(R.string.verify_send);
+                forget_send_btn.setEnabled(true); // 设置按钮可点击
+                isCountingDown = false;
+            }
+        }.start();
+    }
+
+    private void login() {
+
+        mHelper.setCurrentUsername(login_username_et.getText().toString());
+
+        String testUsername = mHelper.getCurrentUsername();
+        Log.d("llxl", String.format("current username is %s", testUsername));
+        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+        Toast.makeText(getApplicationContext(), "Successfully Login!", Toast.LENGTH_SHORT).show();
+
+        String username = username_et.getText().toString();
+        String password = password_et.getText().toString();
+
+        mHelper.setCurrentUsername(username);
+        // 如果勾选了记住密码，将用户名和密码保存到SharedPreferences中
+        if (login_remember_cb.isChecked()) {
+            editor.putString("username", username);
+            editor.putString("password", password);
+            editor.apply();
+        }
+    }
+
 }

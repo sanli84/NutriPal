@@ -80,7 +80,8 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
 
         String sql_pw = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_USER_PASSWORD + " (" +
                 " user_name VARCHAR PRIMARY KEY NOT NULL," +
-                " password VARCHAR NOT NULL);" ;
+                " password VARCHAR NOT NULL," +
+                " email VARCHAR NOT NULL);" ;
 
 
         db.execSQL(sql);
@@ -154,6 +155,15 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
         return mWDB.update(TABLE_NAME_USER_PASSWORD, values, "user_name=?", new String[]{current_username});
     }
 
+    public long updatePassword(String password){
+
+        ContentValues values = new ContentValues();
+        values.put("user_name", current_username);
+        values.put("password", password);
+        values.put("email", mHelper.getUserEmail(current_username));
+        return mWDB.update(TABLE_NAME_USER_PASSWORD, values, "user_name=?", new String[]{current_username});
+    }
+
     public String getPassword(String current_username){
 
         Cursor cursor = mRDB.query(TABLE_NAME_USER_PASSWORD, null, "user_name=?", new String[]{current_username}, null, null, null);
@@ -165,10 +175,11 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
         return null;
     }
 
-    public long registerUser(String username,String password){
+    public long registerUser(String username,String password, String email){
         ContentValues values = new ContentValues();
         values.put("user_name",username);
         values.put("password",password);
+        values.put("email", email);
         return mWDB.insert(TABLE_NAME_USER_PASSWORD,null, values);
     }
 
@@ -187,7 +198,8 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
 
         String sql_pw = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_USER_PASSWORD + " (" +
                 " user_name VARCHAR PRIMARY KEY NOT NULL," +
-                " password VARCHAR NOT NULL);" ;
+                " password VARCHAR NOT NULL," +
+                " email VARCHAR NOT NULL);" ;
 
 
         db.execSQL(sql);
@@ -220,5 +232,21 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
             user.target_weight = cursor.getInt(7);
         }
         return user;
+    }
+
+    public String getUserEmail(String username){
+        User user = new User();
+
+        Cursor cursor = mRDB.query(TABLE_NAME_USER_PASSWORD, null, "user_name=?", new String[]{username}, null, null, null);
+        while (cursor.moveToNext()){
+
+            return cursor.getString(2);
+        }
+        return null;
+    }
+
+    public void deleteUser(String username){
+        mWDB.delete(TABLE_NAME_USER_INFO, "name=?", new String[]{username});
+        mWDB.delete(TABLE_NAME_USER_PASSWORD, "user_name=?", new String[]{username});
     }
 }

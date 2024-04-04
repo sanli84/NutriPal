@@ -14,18 +14,18 @@
 
 
     <EditText
-        android:id="@+id/verify_email_et"
+        android:id="@+id/forget_username_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/email" />
+        android:hint="@string/login_username" />
 
     <TextView
-        android:id="@+id/verify_hint_tv"
+        android:id="@+id/forget_hint_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:textColor="@color/cyan_blue"
-        android:text="@string/verify_hint"
+        android:text="@string/forget_hint"
         android:layout_marginStart="10dp"
         android:textSize="15sp" />
 
@@ -39,7 +39,7 @@
         <!-- 输入密码的 EditText -->
         <EditText
 
-            android:id="@+id/verify_code_et"
+            android:id="@+id/forget_code_et"
             android:layout_width="0dp"
             android:layout_weight="3"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             android:inputType="textPassword" />
 
         <Button
-            android:id="@+id/verify_send_btn"
+            android:id="@+id/forget_send_btn"
             android:layout_width="0dp"
             android:layout_weight="4"
             android:layout_height="wrap_content"
@@ -64,14 +64,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/verify_verify_btn"
+            android:id="@+id/forget_verify_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/Verify" />
 
         <Button
-            android:id="@+id/verify_Cancel_btn"
+            android:id="@+id/forget_Cancel_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

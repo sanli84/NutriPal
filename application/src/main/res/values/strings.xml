@@ -70,6 +70,10 @@
     <string name="profile_enterHeight">Enter your height:</string>
     <string name="profile_enterWeight">Enter your weight:</string>
     <string name="profile_enterTarget">Enter your target weight:</string>
+    <string name="forget_hint">Input your username</string>
+    <string name="setPW_title">Set your new password</string>
+    <string name="setPW_newPW">new password</string>
+
 
 
 
