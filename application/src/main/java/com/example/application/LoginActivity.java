@@ -292,7 +292,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 inputCode = buttonSendEmail(targetEmail);
             }
         } else if (v.getId() == R.id.verify_verify_btn) {
-            if (forget_code_et.getText().toString().equals(inputCode) && !inputCode.isEmpty()) {
+            if (verify_code_et.getText().toString().equals(inputCode) && !inputCode.isEmpty()) {
                 login_username_et.setText(info_username_et.getText().toString());
                 password_et.setText(register_Password_et.getText().toString());
                 String username = info_username_et.getText().toString();
