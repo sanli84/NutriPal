@@ -22,6 +22,8 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -45,6 +47,7 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation("com.sun.mail:android-mail:1.6.6")
     implementation("com.sun.mail:android-activation:1.6.7")
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
