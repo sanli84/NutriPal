@@ -7,10 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.application.entity.Food;
 import com.example.application.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class NutriPalDBHelper extends SQLiteOpenHelper {
@@ -20,6 +24,7 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
     private static NutriPalDBHelper mHelper = null;
     private static final String TABLE_NAME_USER_INFO = "user_info";
     private static final String TABLE_NAME_USER_PASSWORD = "user_password";
+    private static final String TABLE_NAME_MEALS = "meals";
 
     private SQLiteDatabase mRDB = null;
     private SQLiteDatabase mWDB = null;
@@ -83,9 +88,21 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
                 " password VARCHAR NOT NULL," +
                 " email VARCHAR NOT NULL);" ;
 
+        String sql_meals = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_MEALS + " (" +
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                " user_name VARCHAR NOT NULL," +
+                " category VARCHAR NOT NULL," +
+                " food_name VARCHAR NOT NULL," +
+                " unit VARCHAR NOT NULL," +
+                " calories INTEGER NOT NULL," +
+                " fat DOUBLE NOT NULL," +
+                " carbs DOUBLE NOT NULL," +
+                " protein DOUBLE NOT NULL);" ;
+
 
         db.execSQL(sql);
         db.execSQL(sql_pw);
+        db.execSQL(sql_meals);
     }
 
     public boolean userExistsInDatabase(String userName){
@@ -186,24 +203,7 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.d("llxl","it is creating a new table");
-        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_USER_INFO + " (" +
-                "_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
-                " name VARCHAR NOT NULL," +
-                " profile_photo VARCHAR ," +
-                " birth VARCHAR ," +
-                " height INTEGER ," +
-                " real_weight INTEGER NOT NULL," +
-                " age INTEGER ," +
-                " target_weight INTEGER NOT NULL);" ;
 
-        String sql_pw = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_USER_PASSWORD + " (" +
-                " user_name VARCHAR PRIMARY KEY NOT NULL," +
-                " password VARCHAR NOT NULL," +
-                " email VARCHAR NOT NULL);" ;
-
-
-        db.execSQL(sql);
-        db.execSQL(sql_pw);
     }
 
     public void setCurrentUsername(String username){
@@ -248,5 +248,36 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
     public void deleteUser(String username){
         mWDB.delete(TABLE_NAME_USER_INFO, "name=?", new String[]{username});
         mWDB.delete(TABLE_NAME_USER_PASSWORD, "user_name=?", new String[]{username});
+    }
+
+    public void storeFood(String selectedFood){
+        Log.d("tag:llxl", "storeFood called");
+
+        String regex = "(.+), Per (.+) - Calories: (\\d+)kcal \\| Fat: (\\d+\\.\\d+)g \\| Carbs: (\\d+\\.\\d+)g \\| Protein: (\\d+\\.\\d+)g";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(selectedFood);
+        if (matcher.find()) {
+            Log.d("tag:llxl", "matcher found");
+            String foodName = matcher.group(1);
+            String unit = matcher.group(2);
+            int calories = Integer.parseInt(Objects.requireNonNull(matcher.group(3)));
+            double fat = Double.parseDouble(Objects.requireNonNull(matcher.group(4)));
+            double carbs = Double.parseDouble(Objects.requireNonNull(matcher.group(5)));
+            double protein = Double.parseDouble(Objects.requireNonNull(matcher.group(6)));
+
+            // 输出提取的信息
+//            Log.d("tag:llxl", "foodName: " + foodName);
+//            Log.d("tag:llxl", "unit: " + unit);
+//            Log.d("tag:llxl", "calories: " + calories);
+//            Log.d("tag:llxl", "fat: " + fat);
+//            Log.d("tag:llxl", "carbs: " + carbs);
+//            Log.d("tag:llxl", "protein: " + protein);
+
+            Food food = new Food(foodName, unit, calories, fat, carbs, protein);
+
+
+        } else {
+            System.out.println("No matching pattern found");
+        }
     }
 }

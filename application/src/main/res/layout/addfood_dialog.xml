@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
+    android:layout_width="350dp"
     android:layout_height="300dp"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="20dp"
+    android:gravity="center">
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,24 +26,27 @@
         android:id="@+id/addFood_foodName_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxLines="1"
         android:hint="@string/foodName" />
 
 
-    <!-- 注册和取消按钮 -->
-    <LinearLayout
+    <Button
+        android:id="@+id/addFood_search_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/search_word" />
+
+    <Spinner
+        android:id="@+id/addFood_spinner"
+        android:layout_width="match_parent"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/addFood_search_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/search_word"
-            android:layout_gravity="center_horizontal"/>
-
-
-    </LinearLayout>
+    <Button
+        android:id="@+id/addFood_Add_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/addFood" />
 </LinearLayout>

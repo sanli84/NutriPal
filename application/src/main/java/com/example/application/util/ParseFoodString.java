@@ -47,11 +47,14 @@ public class ParseFoodString {
             // 打印内部列表的元素
             String items = "";
             for (String item : innerList) {
-                items = items + " " + item;
+                items = items + item + ", ";
             }
+            items = items.substring(0, items.length() - 2);
             Log.d("tag:llxl", items);
             arr.add(items);
         }
         return arr;
     }
+
+
 }

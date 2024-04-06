@@ -8,9 +8,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,12 +21,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.application.database.NutriPalDBHelper;
 import com.example.application.util.ParseFoodString;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.FormBody;
@@ -36,22 +41,40 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
 
     private String accessToken;
     private Dialog dialogAddFood;
-    private List<List<String>> foodsInfosList;
+    private List<String> foodsInfosList;
+    private Button addFood_search_btn;
+    private Spinner addFood_spinner;
+    private Button addFood_Add_btn;
+    private NutriPalDBHelper mHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meals);
-        requestAccessToken();
+
         RadioGroup guide_rg = findViewById(R.id.meals_guide_rg);
         guide_rg.setOnCheckedChangeListener(this);
         RadioButton meals_diary_btn = findViewById(R.id.meals_diary_btn);
         @SuppressLint("UseCompatLoadingForDrawables") Drawable meals_btn_drawable = getDrawable(R.drawable.guide_diary_selected);
         meals_diary_btn.setBackground(meals_btn_drawable);
-
+        dialogAddFood = new Dialog(this);
+        dialogAddFood.setContentView(R.layout.addfood_dialog);
+        addFood_search_btn = dialogAddFood.findViewById(R.id.addFood_search_btn);
+        addFood_search_btn.setOnClickListener(this);
+        addFood_spinner = dialogAddFood.findViewById(R.id.addFood_spinner);
+        addFood_Add_btn = dialogAddFood.findViewById(R.id.addFood_Add_btn);
+        addFood_Add_btn.setOnClickListener(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mHelper = NutriPalDBHelper.getInstance(this);
+        mHelper.openWriteLink();
+        mHelper.openReadLink();
 
+    }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -63,7 +86,7 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void requestAccessToken() {
+    private void requestAccessToken(String foodName) {
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... voids) {
@@ -110,11 +133,12 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
                         Log.d("tag:llxl", "JSON content: " + json.toString());
                         // 在这里处理获取到的令牌
                         Log.d("tag:llxl", "Access token: " + accessToken);
+                        callApiWithToken(accessToken, foodName);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
-                    callApiWithToken(accessToken);
+//                    callApiWithToken(accessToken);
                 } else {
                     Log.e("tag:llxl", "Failed to receive access token");
                 }
@@ -123,8 +147,7 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void callApiWithToken(String accessToken) {
-        String items = "";
+    private void callApiWithToken(String accessToken, String foodName) {
         // 异步任务：调用 API
         new AsyncTask<String, Void, String>() {
             @Override
@@ -136,7 +159,7 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
                         .add("method", "foods.search")
                         .add("format", "json")
                         .add("max_results", "10")
-                        .add("search_expression", "toast")
+                        .add("search_expression", foodName)
                         .build();
 
                 // 构建请求
@@ -169,8 +192,9 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
                     // 处理 API 响应
                     Log.d("tag:llxl", "API response: " + result);
                     List<List<String>> foodsList = ParseFoodString.parseFood(result);
-                    List<String> foodInfos = ParseFoodString.getFoodsStrings(foodsList);
-                    Log.d("tag:llxl", foodInfos.toString());
+                    foodsInfosList = ParseFoodString.getFoodsStrings(foodsList);
+                    updateSpinnerAdapter(foodsInfosList);
+                    Log.d("tag:llxl", foodsInfosList.toString());
                 } else {
                     Log.e("tag:llxl", "Failed to call API");
                 }
@@ -178,18 +202,27 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
         }.execute(accessToken);
     }
 
-    public void addFood(View view) {
+    private void updateSpinnerAdapter(List<String> foodsList) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, foodsList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        addFood_spinner.setAdapter(adapter);
+    }
 
-        dialogAddFood = new Dialog(this);
-        dialogAddFood.setContentView(R.layout.addfood_dialog);
+    public void addFood(View view) {
         dialogAddFood.show();
-        Button addFood_search_btn = dialogAddFood.findViewById(R.id.addFood_search_btn);
-        addFood_search_btn.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.addFood_search_btn){
+            EditText addFood_foodName_et = dialogAddFood.findViewById(R.id.addFood_foodName_et);
+            String foodName = addFood_foodName_et.getText().toString();
+            requestAccessToken(foodName);
+        } else if(v.getId() == R.id.addFood_Add_btn){
+            String selectedFood = addFood_spinner.getSelectedItem().toString();
+            Log.d("tag:llxl", "selected: " + selectedFood);
+            mHelper.storeFood(selectedFood);
             dialogAddFood.dismiss();
         }
     }
