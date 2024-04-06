@@ -283,12 +283,14 @@
                     </GridLayout>
 
                     <Button
+                        android:id="@+id/meals_breakfast_addBtn"
                         style="@style/ButtonStyle_meals"
                         android:layout_width="90dp"
                         android:layout_height="30dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:background="@drawable/add_food_btn_border"
+                        android:onClick="addFood"
                         android:textAllCaps="false" />
 
                 </RelativeLayout>

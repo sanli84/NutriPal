@@ -5,11 +5,15 @@
     <string name="Cancel">Cancel</string>
     <string name="Verify">Verify</string>
     <string name="continue_word">Continue</string>
+    <string name="search_word">Search</string>
     <string name="email">Email address</string>
     <string name="Register_vertical">R\ne\ng\ni\ns\nt\ne\nr</string>
     <string name="KG">KG</string>
     <string name="cm">\t\tcm</string>
     <string name="OK">OK</string>
+    <string name="addFood">Add Food</string>
+    <string name="foodName">Food Name</string>
+    <string name="foodName_hint">Please enter food name:</string>
     <string name="register_hint">hint:  input the username</string>
     <string name="usernameExist">Username has existed!</string>
     <string name="usernameAvailable">Username available!</string>
@@ -73,6 +77,8 @@
     <string name="forget_hint">Input your username</string>
     <string name="setPW_title">Set your new password</string>
     <string name="setPW_newPW">new password</string>
+
+
 
 
 
