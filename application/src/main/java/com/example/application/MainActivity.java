@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         requestAccessToken();
-        callApiWithToken(accessToken);
     }
 
 
@@ -87,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
+                    callApiWithToken(accessToken);
                 } else {
                     Log.e("tag:llxl", "Failed to receive access token");
                 }
@@ -102,27 +103,20 @@ public class MainActivity extends AppCompatActivity {
             protected String doInBackground(String... tokens) {
                 OkHttpClient client = new OkHttpClient();
 
-                // 构建请求体
-                JSONObject requestBodyJson = new JSONObject();
-                try {
-                    requestBodyJson.put("format", "xml");
-                    requestBodyJson.put("method", "food.get.v2");
-                    requestBodyJson.put("food_id", "3092");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                String requestContent = "method=foods.search&search_expression=toast&format=json";
-                // 创建 MediaType 对象，指定为 application/json
-                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-// 创建 RequestBody 对象，指定请求体的内容和媒体类型
-                RequestBody requestBody = RequestBody.create(JSON, requestContent);
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("method", "foods.search")
+                        .add("format", "json")
+                        .add("search_expression", "toast")
+                        .build();
+
                 // 构建请求
                 Request request = new Request.Builder()
+                        .header("Authorization", "Bearer " + accessToken)// 设置访问令牌
                         .url("https://platform.fatsecret.com/rest/server.api")
                         .post(requestBody)
-                        .header("Authorization", "Bearer " + tokens[0])// 设置访问令牌
                         .build();
+                Log.d("tag:llxl", String.format("request:%s", request));
 
                 try {
                     // 发送请求并获取响应
