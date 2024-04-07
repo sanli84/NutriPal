@@ -6,6 +6,7 @@
     <string name="Verify">Verify</string>
     <string name="continue_word">Continue</string>
     <string name="search_word">Search</string>
+    <string name="quantity">Quantity</string>
     <string name="email">Email address</string>
     <string name="Register_vertical">R\ne\ng\ni\ns\nt\ne\nr</string>
     <string name="KG">KG</string>
@@ -57,7 +58,7 @@
     <string name="carbs_word">carbs</string>
     <string name="fat_word">fat</string>
     <string name="protein_word">protein</string>
-    <string name="placeholder">\t%s%s%s</string>
+    <string name="placeholder">\t</string>
     <string name="meals_lunch_word">Lunch</string>
     <string name="meals_dinner_word">Dinner</string>
     <string name="guide_home">Home</string>

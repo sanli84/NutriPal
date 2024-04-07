@@ -257,14 +257,16 @@
                         android:textSize="16sp" />
 
                     <GridLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/tv_meals_breakfast"
-                        android:layout_marginBottom="-60dp"
-                        android:columnCount="4"
+                        android:layout_alignTop="@id/tv_meals_breakfast"
+                        android:layout_marginTop="60dp"
+                        android:columnCount="1"
                         android:rowCount="2">
 
                         <TextView
+                            android:id="@+id/breakfast_food_1"
+                            android:tag="breakfast_food_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/home_child_font"
@@ -273,6 +275,28 @@
                             android:textSize="16sp" />
 
                         <TextView
+                            android:id="@+id/breakfast_food_2"
+                            android:tag="breakfast_food_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/home_child_font"
+                            android:text="@string/placeholder"
+                            android:textColor="@color/icon_yellow"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/breakfast_food_3"
+                            android:tag="breakfast_food_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/home_child_font"
+                            android:text="@string/placeholder"
+                            android:textColor="@color/icon_yellow"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/breakfast_food_4"
+                            android:tag="breakfast_food_4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/home_child_font"

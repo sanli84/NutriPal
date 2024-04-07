@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,12 +23,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.application.database.NutriPalDBHelper;
+import com.example.application.entity.Food;
 import com.example.application.util.ParseFoodString;
+import com.example.application.util.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +50,7 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
     private Spinner addFood_spinner;
     private Button addFood_Add_btn;
     private NutriPalDBHelper mHelper;
+    private EditText addFood_quantity_et;
 
 
     @Override
@@ -65,6 +70,8 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
         addFood_spinner = dialogAddFood.findViewById(R.id.addFood_spinner);
         addFood_Add_btn = dialogAddFood.findViewById(R.id.addFood_Add_btn);
         addFood_Add_btn.setOnClickListener(this);
+        addFood_quantity_et = dialogAddFood.findViewById(R.id.addFood_quantity_et);
+
     }
 
     @Override
@@ -73,7 +80,7 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
         mHelper = NutriPalDBHelper.getInstance(this);
         mHelper.openWriteLink();
         mHelper.openReadLink();
-
+        updatePage();
     }
 
     @Override
@@ -222,8 +229,47 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
         } else if(v.getId() == R.id.addFood_Add_btn){
             String selectedFood = addFood_spinner.getSelectedItem().toString();
             Log.d("tag:llxl", "selected: " + selectedFood);
-            mHelper.storeFood(selectedFood);
+            double foodQuantity = Double.parseDouble(addFood_quantity_et.getText().toString());
+            String category = "breakfast";
+            if(mHelper.storeFood(selectedFood, foodQuantity, category) > 0){
+                ToastUtil.show(this, "Add food successfully!");
+            }else ToastUtil.show(this, "Add food unsuccessfully!");
             dialogAddFood.dismiss();
+            updatePage();
         }
+    }
+
+    private void updatePage(){
+        List<List<Food>> foodList = mHelper.getFoodsToday();
+        List<Food> breakfastList = foodList.get(0);
+        int breakfastNum = breakfastList.size();
+        for (int i = 0; i < breakfastNum;i++){
+
+            if(i == 0){
+                Food tempFood = breakfastList.get(0);
+                @SuppressLint("DefaultLocale") String tempFoodString = String.format("%s %sX%s,", tempFood.food_name, String.format("%.0f", tempFood.quantity), tempFood.unit);
+                TextView tempTV = findViewById(R.id.breakfast_food_1);
+                tempTV.setText(tempFoodString);
+            } else if (i == 1) {
+                Food tempFood = breakfastList.get(1);
+                @SuppressLint("DefaultLocale") String tempFoodString = String.format("%s %sX%s,", tempFood.food_name, String.format("%.0f", tempFood.quantity), tempFood.unit);
+                TextView tempTV = findViewById(R.id.breakfast_food_2);
+                tempTV.setText(tempFoodString);
+            } else if (i == 2) {
+                Food tempFood = breakfastList.get(2);
+                @SuppressLint("DefaultLocale") String tempFoodString = String.format("%s %sX%s,", tempFood.food_name, String.format("%.0f", tempFood.quantity), tempFood.unit);
+                TextView tempTV = findViewById(R.id.breakfast_food_3);
+                tempTV.setText(tempFoodString);
+            }else if (i == 3) {
+                Food tempFood = breakfastList.get(3);
+                @SuppressLint("DefaultLocale") String tempFoodString = String.format("%s %sX%s,", tempFood.food_name, String.format("%.0f", tempFood.quantity), tempFood.unit);
+                TextView tempTV = findViewById(R.id.breakfast_food_4);
+                tempTV.setText(tempFoodString);
+            }
+        }
+
+
+        List<Food> lunchList = foodList.get(1);
+        List<Food> dinnerList = foodList.get(2);
     }
 }

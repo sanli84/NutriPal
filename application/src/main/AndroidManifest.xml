@@ -31,13 +31,13 @@
         </activity>
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".MealsActivity"
             android:exported="true"
             android:theme="@style/Base.Theme.NutriPal">
         </activity>
 
         <activity
-            android:name=".MealsActivity"
+            android:name=".LoginActivity"
             android:exported="true"
             android:theme="@style/Base.Theme.NutriPal">
             <intent-filter>
