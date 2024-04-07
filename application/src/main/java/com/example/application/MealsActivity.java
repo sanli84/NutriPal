@@ -2,7 +2,9 @@ package com.example.application;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,6 +36,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -51,6 +54,7 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
     private Button addFood_Add_btn;
     private NutriPalDBHelper mHelper;
     private EditText addFood_quantity_et;
+    private String current_category;
 
 
     @Override
@@ -85,7 +89,7 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        if(checkedId == R.id.meals_home_btn){
+        if (checkedId == R.id.meals_home_btn) {
             startActivity(new Intent(MealsActivity.this, HomeActivity.class));
         } else if (checkedId == R.id.meals_profile_btn) {
             startActivity(new Intent(MealsActivity.this, ProfileActivity.class));
@@ -215,61 +219,133 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
         addFood_spinner.setAdapter(adapter);
     }
 
-    public void addFood(View view) {
+    public void addBreakfast(View view) {
+        current_category = "breakfast";
+        dialogAddFood.show();
+
+    }
+
+    public void addLunch(View view) {
+        current_category = "lunch";
+        dialogAddFood.show();
+
+    }
+
+    public void addDinner(View view) {
+        current_category = "dinner";
         dialogAddFood.show();
 
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.addFood_search_btn){
+        if (v.getId() == R.id.addFood_search_btn) {
             EditText addFood_foodName_et = dialogAddFood.findViewById(R.id.addFood_foodName_et);
             String foodName = addFood_foodName_et.getText().toString();
             requestAccessToken(foodName);
-        } else if(v.getId() == R.id.addFood_Add_btn){
+        } else if (v.getId() == R.id.addFood_Add_btn) {
             String selectedFood = addFood_spinner.getSelectedItem().toString();
             Log.d("tag:llxl", "selected: " + selectedFood);
             double foodQuantity = Double.parseDouble(addFood_quantity_et.getText().toString());
-            String category = "breakfast";
-            if(mHelper.storeFood(selectedFood, foodQuantity, category) > 0){
+            if (mHelper.storeFood(selectedFood, foodQuantity, current_category) > 0) {
                 ToastUtil.show(this, "Add food successfully!");
-            }else ToastUtil.show(this, "Add food unsuccessfully!");
+            } else ToastUtil.show(this, "Add food unsuccessfully!");
             dialogAddFood.dismiss();
             updatePage();
         }
     }
 
-    private void updatePage(){
+    private TextView getTextViewById(Context context, String id) {
+        Resources res = context.getResources();
+        int resId = res.getIdentifier(id, "id", context.getPackageName());
+        TextView textView = new TextView(context);
+        if (resId != 0) {
+            textView = findViewById(resId);
+        } else {
+            // 如果未找到对应的资源ID，则显示错误信息
+            return null;
+        }
+        return textView;
+    }
+
+
+    private void updatePage() {
         List<List<Food>> foodList = mHelper.getFoodsToday();
         List<Food> breakfastList = foodList.get(0);
         int breakfastNum = breakfastList.size();
-        for (int i = 0; i < breakfastNum;i++){
+        for (int i = 0; i < breakfastNum; i++) {
 
-            if(i == 0){
-                Food tempFood = breakfastList.get(0);
-                @SuppressLint("DefaultLocale") String tempFoodString = String.format("%s %sX%s,", tempFood.food_name, String.format("%.0f", tempFood.quantity), tempFood.unit);
-                TextView tempTV = findViewById(R.id.breakfast_food_1);
-                tempTV.setText(tempFoodString);
-            } else if (i == 1) {
-                Food tempFood = breakfastList.get(1);
-                @SuppressLint("DefaultLocale") String tempFoodString = String.format("%s %sX%s,", tempFood.food_name, String.format("%.0f", tempFood.quantity), tempFood.unit);
-                TextView tempTV = findViewById(R.id.breakfast_food_2);
-                tempTV.setText(tempFoodString);
-            } else if (i == 2) {
-                Food tempFood = breakfastList.get(2);
-                @SuppressLint("DefaultLocale") String tempFoodString = String.format("%s %sX%s,", tempFood.food_name, String.format("%.0f", tempFood.quantity), tempFood.unit);
-                TextView tempTV = findViewById(R.id.breakfast_food_3);
-                tempTV.setText(tempFoodString);
-            }else if (i == 3) {
-                Food tempFood = breakfastList.get(3);
-                @SuppressLint("DefaultLocale") String tempFoodString = String.format("%s %sX%s,", tempFood.food_name, String.format("%.0f", tempFood.quantity), tempFood.unit);
-                TextView tempTV = findViewById(R.id.breakfast_food_4);
+            Food tempFood = breakfastList.get(i);
+            @SuppressLint("DefaultLocale") String tempFoodString = String.format("%s %sX%s", tempFood.food_name, String.format("%.0f", tempFood.quantity), tempFood.unit);
+            String foodComponentID = String.format("breakfast_food_%s",i+1);
+
+            TextView tempTV = getTextViewById(this, foodComponentID);
+            if (tempTV != null){
                 tempTV.setText(tempFoodString);
             }
         }
 
-
         List<Food> lunchList = foodList.get(1);
+        int lunchNum = lunchList.size();
+        for (int i = 0; i < lunchNum; i++) {
+
+            Food tempFood = lunchList.get(i);
+            @SuppressLint("DefaultLocale") String tempFoodString = String.format("%s %sX%s", tempFood.food_name, String.format("%.0f", tempFood.quantity), tempFood.unit);
+            String foodComponentID = String.format("lunch_food_%s",i+1);
+
+            TextView tempTV = getTextViewById(this, foodComponentID);
+            if (tempTV != null){
+                tempTV.setText(tempFoodString);
+            }
+        }
+
         List<Food> dinnerList = foodList.get(2);
+        int dinnerNum = dinnerList.size();
+        for (int i = 0; i < dinnerNum; i++) {
+
+            Food tempFood = dinnerList.get(i);
+            @SuppressLint("DefaultLocale") String tempFoodString = String.format("%s %sX%s", tempFood.food_name, String.format("%.0f", tempFood.quantity), tempFood.unit);
+            String foodComponentID = String.format("dinner_food_%s",i+1);
+
+            TextView tempTV = getTextViewById(this, foodComponentID);
+            if (tempTV != null){
+                tempTV.setText(tempFoodString);
+            }
+        }
+
+        Map<String, Object> nutritionMapBreakfast = mHelper.calculateNutrition("breakfast");
+        Integer totalCaloriesBreakfastInteger = (Integer) nutritionMapBreakfast.get("totalCalories");
+        Double totalFatBreakfastDouble = (Double) nutritionMapBreakfast.get("totalFat");
+        Double totalCarbsBreakfastDouble = (Double) nutritionMapBreakfast.get("totalCarbs");
+        Double totalProteinBreakfastDouble = (Double) nutritionMapBreakfast.get("totalProtein");
+        if (totalCaloriesBreakfastInteger != null && totalFatBreakfastDouble != null
+                && totalCarbsBreakfastDouble != null && totalProteinBreakfastDouble != null) {
+            int totalCaloriesBreakfast = totalCaloriesBreakfastInteger;
+            double totalFatBreakfast = totalFatBreakfastDouble;
+            double totalCarbsBreakfast = totalCarbsBreakfastDouble;
+            double totalProteinBreakfast = totalProteinBreakfastDouble;
+
+            TextView caloriesBreakfastNum_tv = findViewById(R.id.tv_breakfast_calories_num);
+            caloriesBreakfastNum_tv.setText(String.valueOf(totalCaloriesBreakfast));
+
+            TextView fatBreakfastNum_tv = findViewById(R.id.tv_breakfast_fat_num);
+            fatBreakfastNum_tv.setText(String.valueOf(totalFatBreakfast));
+
+            TextView carbsBreakfastNum_tv = findViewById(R.id.tv_breakfast_carbs_num);
+            carbsBreakfastNum_tv.setText(String.valueOf(totalCarbsBreakfast));
+
+            TextView proteinsBreakfastNum_tv = findViewById(R.id.tv_breakfast_protein_num);
+            proteinsBreakfastNum_tv.setText(String.valueOf(totalProteinBreakfast));
+
+        } else {
+            ToastUtil.show(this,"update page unsuccessfully");
+        }
+
+        Map<String, Object> nutritionMapLunch = mHelper.calculateNutrition("lunch");
+        Map<String, Object> nutritionMapDinner = mHelper.calculateNutrition("dinner");
+
+
     }
+
+
 }

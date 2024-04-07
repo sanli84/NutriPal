@@ -41,13 +41,14 @@
         android:id="@+id/addFood_spinner"
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="50dp"/>
 
     <EditText
         android:id="@+id/addFood_quantity_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/quantity"
+        android:layout_marginTop="10dp"
         android:maxLines="1"
         android:inputType="numberDecimal"
         />

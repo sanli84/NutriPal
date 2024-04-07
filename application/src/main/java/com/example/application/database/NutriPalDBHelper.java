@@ -13,7 +13,9 @@ import com.example.application.entity.User;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -337,5 +339,35 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
         foodList.add(dinnerList);
 
         return foodList;
+    }
+
+    public Map<String, Object> calculateNutrition(String category){
+
+        Map<String, Object> nutritionMap = new HashMap<>();
+        int totalCalories = 0;
+        double totalFat = 0;
+        double totalCarbs = 0;
+        double totalProtein = 0;
+        String currentDate = (LocalDate.now()).toString();
+        String currentUserName = mHelper.getCurrentUsername();
+        Cursor cursor = mRDB.query(TABLE_NAME_MEALS, null, "date=? AND user_name=? AND category=?", new String[]{currentDate, currentUserName, category}, null, null, null);
+        while (cursor.moveToNext()) {
+            Food tempFood = new Food();
+            tempFood.quantity = cursor.getDouble(9);
+            tempFood.calories = cursor.getInt(5);
+            tempFood.fat = cursor.getDouble(6);
+            tempFood.carbs = cursor.getDouble(6);
+            tempFood.protein = cursor.getDouble(7);
+            totalCalories += (int) (tempFood.quantity * tempFood.calories);
+            totalFat += (int) (tempFood.quantity * tempFood.fat);
+            totalCarbs += (int) (tempFood.quantity * tempFood.carbs);
+            totalProtein += (int) (tempFood.quantity * tempFood.protein);
+        }
+        nutritionMap.put("totalCalories", totalCalories);
+        nutritionMap.put("totalFat", totalFat);
+        nutritionMap.put("totalCarbs", totalCarbs);
+        nutritionMap.put("totalProtein", totalProtein);
+
+        return nutritionMap;
     }
 }

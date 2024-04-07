@@ -171,6 +171,7 @@
                         android:textSize="25sp" />
 
                     <TextView
+                        android:id="@+id/tv_breakfast_calories_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
@@ -192,6 +193,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@id/tv_meals_breakfast"
                         android:layout_marginBottom="-26dp"
+                        android:layout_alignEnd="@id/tv_meals_breakfast"
+                        android:layout_marginEnd="10dp"
                         android:fontFamily="@font/home_child_font"
                         android:text="@string/placeholder"
                         android:textSize="16sp" />
@@ -294,15 +297,6 @@
                             android:textColor="@color/icon_yellow"
                             android:textSize="16sp" />
 
-                        <TextView
-                            android:id="@+id/breakfast_food_4"
-                            android:tag="breakfast_food_4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/home_child_font"
-                            android:text="@string/placeholder"
-                            android:textColor="@color/icon_yellow"
-                            android:textSize="16sp" />
 
                     </GridLayout>
 
@@ -314,7 +308,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:background="@drawable/add_food_btn_border"
-                        android:onClick="addFood"
+                        android:onClick="addBreakfast"
                         android:textAllCaps="false" />
 
                 </RelativeLayout>
@@ -427,14 +421,16 @@
                         android:textSize="16sp" />
 
                     <GridLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/tv_meals_lunch"
-                        android:layout_marginBottom="-60dp"
-                        android:columnCount="4"
+                        android:layout_alignTop="@id/tv_meals_lunch"
+                        android:layout_marginTop="60dp"
+                        android:columnCount="1"
                         android:rowCount="2">
 
                         <TextView
+                            android:id="@+id/lunch_food_1"
+                            android:tag="breakfast_food_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/home_child_font"
@@ -443,21 +439,37 @@
                             android:textSize="16sp" />
 
                         <TextView
+                            android:id="@+id/lunch_food_2"
+                            android:tag="breakfast_food_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/home_child_font"
                             android:text="@string/placeholder"
                             android:textColor="@color/icon_yellow"
                             android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/lunch_food_3"
+                            android:tag="breakfast_food_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/home_child_font"
+                            android:text="@string/placeholder"
+                            android:textColor="@color/icon_yellow"
+                            android:textSize="16sp" />
+
+
 
                     </GridLayout>
 
                     <Button
+                        android:id="@+id/meals_lunch_addBtn"
                         style="@style/ButtonStyle_meals"
                         android:layout_width="90dp"
                         android:layout_height="30dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
+                        android:onClick="addLunch"
                         android:background="@drawable/add_food_btn_border"
                         android:textAllCaps="false" />
                 </RelativeLayout>
@@ -570,14 +582,16 @@
                         android:textSize="16sp" />
 
                     <GridLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/tv_meals_dinner"
-                        android:layout_marginBottom="-60dp"
-                        android:columnCount="4"
+                        android:layout_alignTop="@id/tv_meals_dinner"
+                        android:layout_marginTop="60dp"
+                        android:columnCount="1"
                         android:rowCount="2">
 
                         <TextView
+                            android:id="@+id/dinner_food_1"
+                            android:tag="breakfast_food_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/home_child_font"
@@ -586,21 +600,37 @@
                             android:textSize="16sp" />
 
                         <TextView
+                            android:id="@+id/dinner_food_2"
+                            android:tag="breakfast_food_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/home_child_font"
                             android:text="@string/placeholder"
                             android:textColor="@color/icon_yellow"
                             android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/dinner_food_3"
+                            android:tag="breakfast_food_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/home_child_font"
+                            android:text="@string/placeholder"
+                            android:textColor="@color/icon_yellow"
+                            android:textSize="16sp" />
+
+
 
                     </GridLayout>
 
                     <Button
+                        android:id="@+id/meals_dinner_addBtn"
                         style="@style/ButtonStyle_meals"
                         android:layout_width="90dp"
                         android:layout_height="30dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
+                        android:onClick="addDinner"
                         android:background="@drawable/add_food_btn_border"
                         android:textAllCaps="false" />
                 </RelativeLayout>
