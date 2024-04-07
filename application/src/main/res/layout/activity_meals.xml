@@ -39,12 +39,13 @@
                 android:rowCount="2">
 
                 <TextView
+                    android:id="@+id/caloriesDaily_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="20dp"
                     android:fontFamily="@font/home_child_font"
-                    android:text="@string/placeholder"
+                    android:text="@string/zero"
                     android:textSize="17sp" />
 
                 <TextView
@@ -57,12 +58,13 @@
                     android:textSize="25sp" />
 
                 <TextView
+                    android:id="@+id/caloriesIngest_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/home_child_font"
-                    android:text="@string/placeholder"
+                    android:text="@string/zero"
                     android:textSize="17sp" />
 
                 <TextView
@@ -80,7 +82,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/home_child_font"
-                    android:text="@string/placeholder"
+                    android:text="@string/zero"
                     android:textSize="17sp" />
 
                 <TextView
@@ -93,12 +95,13 @@
                     android:textSize="25sp" />
 
                 <TextView
+                    android:id="@+id/calories_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/home_child_font"
-                    android:text="@string/placeholder"
+                    android:text="@string/zero"
                     android:textSize="17sp" />
 
                 <TextView
@@ -174,10 +177,21 @@
                         android:id="@+id/tv_breakfast_calories_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="100dp"
                         android:fontFamily="@font/meals_font"
                         android:text="@string/placeholder"
+                        android:textSize="25sp"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:id="@+id/tv_breakfast_calories_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/meals_font"
+                        android:text="@string/calories"
                         android:textSize="25sp"
                         tools:ignore="RelativeOverlap" />
 
@@ -196,7 +210,7 @@
                         android:layout_alignEnd="@id/tv_meals_breakfast"
                         android:layout_marginEnd="10dp"
                         android:fontFamily="@font/home_child_font"
-                        android:text="@string/placeholder"
+                        android:text="@string/zero"
                         android:textSize="16sp" />
 
                     <TextView
@@ -220,7 +234,7 @@
                         android:layout_marginEnd="-100dp"
                         android:layout_marginBottom="-26dp"
                         android:fontFamily="@font/home_child_font"
-                        android:text="@string/placeholder"
+                        android:text="@string/zero"
 
                         android:textSize="16sp" />
 
@@ -244,7 +258,7 @@
                         android:layout_marginEnd="-207dp"
                         android:layout_marginBottom="-26dp"
                         android:fontFamily="@font/home_child_font"
-                        android:text="@string/placeholder"
+                        android:text="@string/zero"
 
                         android:textSize="16sp" />
 
@@ -336,12 +350,24 @@
                         android:textSize="25sp" />
 
                     <TextView
+                        android:id="@+id/tv_lunch_calories_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="100dp"
                         android:fontFamily="@font/meals_font"
                         android:text="@string/placeholder"
+                        android:textSize="25sp"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:id="@+id/tv_lunch_calories_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/meals_font"
+                        android:text="@string/calories"
                         android:textSize="25sp"
                         tools:ignore="RelativeOverlap" />
 
@@ -357,8 +383,10 @@
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@id/tv_meals_lunch"
                         android:layout_marginBottom="-26dp"
+                        android:layout_alignEnd="@id/tv_meals_lunch"
+                        android:layout_marginEnd="-20dp"
                         android:fontFamily="@font/home_child_font"
-                        android:text="@string/placeholder"
+                        android:text="@string/zero"
                         android:textSize="16sp" />
 
                     <TextView
@@ -366,7 +394,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignEnd="@id/tv_meals_lunch"
                         android:layout_alignBottom="@id/tv_meals_lunch"
-                        android:layout_marginEnd="-60dp"
+                        android:layout_marginEnd="-70dp"
                         android:layout_marginBottom="-25dp"
                         android:fontFamily="@font/home_child_font"
                         android:text="@string/carbs_word"
@@ -381,7 +409,7 @@
                         android:layout_marginEnd="-125dp"
                         android:layout_marginBottom="-26dp"
                         android:fontFamily="@font/home_child_font"
-                        android:text="@string/placeholder"
+                        android:text="@string/zero"
 
                         android:textSize="16sp" />
 
@@ -405,7 +433,7 @@
                         android:layout_marginEnd="-232dp"
                         android:layout_marginBottom="-26dp"
                         android:fontFamily="@font/home_child_font"
-                        android:text="@string/placeholder"
+                        android:text="@string/zero"
 
                         android:textSize="16sp" />
 
@@ -497,12 +525,24 @@
                         android:textSize="25sp" />
 
                     <TextView
+                        android:id="@+id/tv_dinner_calories_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="100dp"
                         android:fontFamily="@font/meals_font"
                         android:text="@string/placeholder"
+                        android:textSize="25sp"
+                        tools:ignore="RelativeOverlap" />
+
+                    <TextView
+                        android:id="@+id/tv_dinner_calories_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/meals_font"
+                        android:text="@string/calories"
                         android:textSize="25sp"
                         tools:ignore="RelativeOverlap" />
 
@@ -518,8 +558,10 @@
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@id/tv_meals_dinner"
                         android:layout_marginBottom="-26dp"
+                        android:layout_alignEnd="@id/tv_meals_dinner"
+                        android:layout_marginEnd="-20dp"
                         android:fontFamily="@font/home_child_font"
-                        android:text="@string/placeholder"
+                        android:text="@string/zero"
                         android:textSize="16sp" />
 
                     <TextView
@@ -527,7 +569,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignEnd="@id/tv_meals_dinner"
                         android:layout_alignBottom="@id/tv_meals_dinner"
-                        android:layout_marginEnd="-60dp"
+                        android:layout_marginEnd="-70dp"
                         android:layout_marginBottom="-25dp"
                         android:fontFamily="@font/home_child_font"
                         android:text="@string/carbs_word"
@@ -539,10 +581,10 @@
                         android:layout_height="wrap_content"
                         android:layout_alignEnd="@id/tv_meals_dinner"
                         android:layout_alignBottom="@id/tv_meals_dinner"
-                        android:layout_marginEnd="-125dp"
+                        android:layout_marginEnd="-120dp"
                         android:layout_marginBottom="-26dp"
                         android:fontFamily="@font/home_child_font"
-                        android:text="@string/placeholder"
+                        android:text="@string/zero"
 
                         android:textSize="16sp" />
 
@@ -563,10 +605,10 @@
                         android:layout_height="wrap_content"
                         android:layout_alignEnd="@id/tv_meals_dinner"
                         android:layout_alignBottom="@id/tv_meals_dinner"
-                        android:layout_marginEnd="-232dp"
+                        android:layout_marginEnd="-220dp"
                         android:layout_marginBottom="-26dp"
                         android:fontFamily="@font/home_child_font"
-                        android:text="@string/placeholder"
+                        android:text="@string/zero"
 
                         android:textSize="16sp" />
 
@@ -575,7 +617,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignEnd="@id/tv_meals_dinner"
                         android:layout_alignBottom="@id/tv_meals_dinner"
-                        android:layout_marginEnd="-287dp"
+                        android:layout_marginEnd="-280dp"
                         android:layout_marginBottom="-26dp"
                         android:fontFamily="@font/home_child_font"
                         android:text="@string/protein_word"

@@ -26,8 +26,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.application.database.NutriPalDBHelper;
 import com.example.application.entity.Food;
+import com.example.application.entity.User;
 import com.example.application.util.ParseFoodString;
 import com.example.application.util.ToastUtil;
+import com.example.application.util.calclateDailyCaloriesUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +57,12 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
     private NutriPalDBHelper mHelper;
     private EditText addFood_quantity_et;
     private String current_category;
+    private TextView caloriesDaily_tv;
+    private TextView caloriesLunchNum_tv;
+    private TextView caloriesBreakfastNum_tv;
+    private TextView caloriesDinnerNum_tv;
+    private TextView caloriesIngest_tv;
+    private TextView calories_left;
 
 
     @Override
@@ -75,7 +83,9 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
         addFood_Add_btn = dialogAddFood.findViewById(R.id.addFood_Add_btn);
         addFood_Add_btn.setOnClickListener(this);
         addFood_quantity_et = dialogAddFood.findViewById(R.id.addFood_quantity_et);
-
+        caloriesDaily_tv = findViewById(R.id.caloriesDaily_tv);
+        caloriesIngest_tv = findViewById(R.id.caloriesIngest_tv);
+        calories_left = findViewById(R.id.calories_left);
     }
 
     @Override
@@ -107,18 +117,10 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
                 String clientSecret = "92ae5817f9da4811b8fe53ae1d1eb349";
 
                 // 构建请求体
-                RequestBody requestBody = new FormBody.Builder()
-                        .add("grant_type", "client_credentials")
-                        .add("client_id", clientID)
-                        .add("client_secret", clientSecret)
-                        .add("scope", "basic")
-                        .build();
+                RequestBody requestBody = new FormBody.Builder().add("grant_type", "client_credentials").add("client_id", clientID).add("client_secret", clientSecret).add("scope", "basic").build();
 
                 // 构建请求
-                Request request = new Request.Builder()
-                        .url("https://oauth.fatsecret.com/connect/token")
-                        .post(requestBody)
-                        .build();
+                Request request = new Request.Builder().url("https://oauth.fatsecret.com/connect/token").post(requestBody).build();
 
                 try {
                     Response response = client.newCall(request).execute();
@@ -166,19 +168,11 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
                 OkHttpClient client = new OkHttpClient();
 
 
-                RequestBody requestBody = new FormBody.Builder()
-                        .add("method", "foods.search")
-                        .add("format", "json")
-                        .add("max_results", "10")
-                        .add("search_expression", foodName)
-                        .build();
+                RequestBody requestBody = new FormBody.Builder().add("method", "foods.search").add("format", "json").add("max_results", "10").add("search_expression", foodName).build();
 
                 // 构建请求
-                Request request = new Request.Builder()
-                        .header("Authorization", "Bearer " + accessToken)// 设置访问令牌
-                        .url("https://platform.fatsecret.com/rest/server.api")
-                        .post(requestBody)
-                        .build();
+                Request request = new Request.Builder().header("Authorization", "Bearer " + accessToken)// 设置访问令牌
+                        .url("https://platform.fatsecret.com/rest/server.api").post(requestBody).build();
                 Log.d("tag:llxl", String.format("request:%s", request));
 
                 try {
@@ -277,10 +271,10 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
 
             Food tempFood = breakfastList.get(i);
             @SuppressLint("DefaultLocale") String tempFoodString = String.format("%s %sX%s", tempFood.food_name, String.format("%.0f", tempFood.quantity), tempFood.unit);
-            String foodComponentID = String.format("breakfast_food_%s",i+1);
+            String foodComponentID = String.format("breakfast_food_%s", i + 1);
 
             TextView tempTV = getTextViewById(this, foodComponentID);
-            if (tempTV != null){
+            if (tempTV != null) {
                 tempTV.setText(tempFoodString);
             }
         }
@@ -291,10 +285,10 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
 
             Food tempFood = lunchList.get(i);
             @SuppressLint("DefaultLocale") String tempFoodString = String.format("%s %sX%s", tempFood.food_name, String.format("%.0f", tempFood.quantity), tempFood.unit);
-            String foodComponentID = String.format("lunch_food_%s",i+1);
+            String foodComponentID = String.format("lunch_food_%s", i + 1);
 
             TextView tempTV = getTextViewById(this, foodComponentID);
-            if (tempTV != null){
+            if (tempTV != null) {
                 tempTV.setText(tempFoodString);
             }
         }
@@ -305,27 +299,45 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
 
             Food tempFood = dinnerList.get(i);
             @SuppressLint("DefaultLocale") String tempFoodString = String.format("%s %sX%s", tempFood.food_name, String.format("%.0f", tempFood.quantity), tempFood.unit);
-            String foodComponentID = String.format("dinner_food_%s",i+1);
+            String foodComponentID = String.format("dinner_food_%s", i + 1);
 
             TextView tempTV = getTextViewById(this, foodComponentID);
-            if (tempTV != null){
+            if (tempTV != null) {
                 tempTV.setText(tempFoodString);
             }
         }
 
+        updateBreakfast();
+        updateLunch();
+        updateDinner();
+        User currentUser = mHelper.getUser(mHelper.getCurrentUsername());
+        int caloriesDailyNeeded = calclateDailyCaloriesUtil.calculateCalories(currentUser.target_weight, currentUser.height, currentUser.age);
+        caloriesDaily_tv.setText(String.valueOf(caloriesDailyNeeded));
+        int caloriesBreakfast = Integer.parseInt(caloriesBreakfastNum_tv.getText().toString());
+        int caloriesLunch = Integer.parseInt(caloriesLunchNum_tv.getText().toString());
+        int caloriesDinner = Integer.parseInt(caloriesDinnerNum_tv.getText().toString());
+        //Log.d("tag:llxl", "breakfastNum: " + caloriesBreakfast);
+        int caloriesIngest = caloriesBreakfast + caloriesLunch + caloriesDinner;
+        Log.d("tag:llxl", "ingestNum: " + caloriesIngest);
+        caloriesIngest_tv.setText(String.valueOf(caloriesIngest));
+        int caloriesLeft = caloriesDailyNeeded - caloriesIngest;
+        calories_left.setText(String.valueOf(caloriesLeft));
+
+    }
+
+    private void updateBreakfast() {
         Map<String, Object> nutritionMapBreakfast = mHelper.calculateNutrition("breakfast");
         Integer totalCaloriesBreakfastInteger = (Integer) nutritionMapBreakfast.get("totalCalories");
         Double totalFatBreakfastDouble = (Double) nutritionMapBreakfast.get("totalFat");
         Double totalCarbsBreakfastDouble = (Double) nutritionMapBreakfast.get("totalCarbs");
         Double totalProteinBreakfastDouble = (Double) nutritionMapBreakfast.get("totalProtein");
-        if (totalCaloriesBreakfastInteger != null && totalFatBreakfastDouble != null
-                && totalCarbsBreakfastDouble != null && totalProteinBreakfastDouble != null) {
+        if (totalCaloriesBreakfastInteger != null && totalFatBreakfastDouble != null && totalCarbsBreakfastDouble != null && totalProteinBreakfastDouble != null) {
             int totalCaloriesBreakfast = totalCaloriesBreakfastInteger;
             double totalFatBreakfast = totalFatBreakfastDouble;
             double totalCarbsBreakfast = totalCarbsBreakfastDouble;
             double totalProteinBreakfast = totalProteinBreakfastDouble;
 
-            TextView caloriesBreakfastNum_tv = findViewById(R.id.tv_breakfast_calories_num);
+            caloriesBreakfastNum_tv = findViewById(R.id.tv_breakfast_calories_num);
             caloriesBreakfastNum_tv.setText(String.valueOf(totalCaloriesBreakfast));
 
             TextView fatBreakfastNum_tv = findViewById(R.id.tv_breakfast_fat_num);
@@ -338,13 +350,66 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
             proteinsBreakfastNum_tv.setText(String.valueOf(totalProteinBreakfast));
 
         } else {
-            ToastUtil.show(this,"update page unsuccessfully");
+            ToastUtil.show(this, "update page unsuccessfully");
         }
+    }
 
+    private void updateLunch() {
         Map<String, Object> nutritionMapLunch = mHelper.calculateNutrition("lunch");
+        Integer totalCaloriesLunchInteger = (Integer) nutritionMapLunch.get("totalCalories");
+        Double totalFatLunchDouble = (Double) nutritionMapLunch.get("totalFat");
+        Double totalCarbsLunchDouble = (Double) nutritionMapLunch.get("totalCarbs");
+        Double totalProteinLunchDouble = (Double) nutritionMapLunch.get("totalProtein");
+        if (totalCaloriesLunchInteger != null && totalFatLunchDouble != null && totalCarbsLunchDouble != null && totalProteinLunchDouble != null) {
+            int totalCaloriesLunch = totalCaloriesLunchInteger;
+            double totalFatLunch = totalFatLunchDouble;
+            double totalCarbsLunch = totalCarbsLunchDouble;
+            double totalProteinLunch = totalProteinLunchDouble;
+
+            caloriesLunchNum_tv = findViewById(R.id.tv_lunch_calories_num);
+            caloriesLunchNum_tv.setText(String.valueOf(totalCaloriesLunch));
+
+            TextView fatLunchNum_tv = findViewById(R.id.tv_lunch_fat_num);
+            fatLunchNum_tv.setText(String.valueOf(totalFatLunch));
+
+            TextView carbsLunchNum_tv = findViewById(R.id.tv_lunch_carbs_num);
+            carbsLunchNum_tv.setText(String.valueOf(totalCarbsLunch));
+
+            TextView proteinsLunchNum_tv = findViewById(R.id.tv_lunch_protein_num);
+            proteinsLunchNum_tv.setText(String.valueOf(totalProteinLunch));
+
+        } else {
+            ToastUtil.show(this, "update page unsuccessfully");
+        }
+    }
+
+    private void updateDinner() {
         Map<String, Object> nutritionMapDinner = mHelper.calculateNutrition("dinner");
+        Integer totalCaloriesDinnerInteger = (Integer) nutritionMapDinner.get("totalCalories");
+        Double totalFatDinnerDouble = (Double) nutritionMapDinner.get("totalFat");
+        Double totalCarbsDinnerDouble = (Double) nutritionMapDinner.get("totalCarbs");
+        Double totalProteinDinnerDouble = (Double) nutritionMapDinner.get("totalProtein");
+        if (totalCaloriesDinnerInteger != null && totalFatDinnerDouble != null && totalCarbsDinnerDouble != null && totalProteinDinnerDouble != null) {
+            int totalCaloriesDinner = totalCaloriesDinnerInteger;
+            double totalFatDinner = totalFatDinnerDouble;
+            double totalCarbsDinner = totalCarbsDinnerDouble;
+            double totalProteinDinner = totalProteinDinnerDouble;
 
+            caloriesDinnerNum_tv = findViewById(R.id.tv_dinner_calories_num);
+            caloriesDinnerNum_tv.setText(String.valueOf(totalCaloriesDinner));
 
+            TextView fatDinnerNum_tv = findViewById(R.id.tv_dinner_fat_num);
+            fatDinnerNum_tv.setText(String.valueOf(totalFatDinner));
+
+            TextView carbsDinnerNum_tv = findViewById(R.id.tv_dinner_carbs_num);
+            carbsDinnerNum_tv.setText(String.valueOf(totalCarbsDinner));
+
+            TextView proteinsDinnerNum_tv = findViewById(R.id.tv_dinner_protein_num);
+            proteinsDinnerNum_tv.setText(String.valueOf(totalProteinDinner));
+
+        } else {
+            ToastUtil.show(this, "update page unsuccessfully");
+        }
     }
 
 

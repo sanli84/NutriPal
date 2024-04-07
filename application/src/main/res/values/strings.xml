@@ -4,9 +4,11 @@
     <string name="Save">Save</string>
     <string name="Cancel">Cancel</string>
     <string name="Verify">Verify</string>
+    <string name="calories">Calories</string>
     <string name="continue_word">Continue</string>
     <string name="search_word">Search</string>
     <string name="quantity">Quantity</string>
+    <string name="zero">0</string>
     <string name="email">Email address</string>
     <string name="Register_vertical">R\ne\ng\ni\ns\nt\ne\nr</string>
     <string name="KG">KG</string>
