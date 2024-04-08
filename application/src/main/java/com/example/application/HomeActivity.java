@@ -6,11 +6,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -18,15 +21,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.application.database.NutriPalDBHelper;
+import com.example.application.entity.User;
+import com.example.application.util.calculateDailyCaloriesUtil;
 
 public class HomeActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
 
     private ImageView home_dot_calorie;
     private ImageView home_dot_macro;
     private NutriPalDBHelper mHelper;
+    private HomePagerAdapter adapter;
+    private TextView home_calories_target_tv;
+    private TextView home_food_tv;
+    private View currentView;
+    private ViewPager viewPager;
+    private View calorieView;
+    private View macroView;
+    private View caloriesCardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +55,29 @@ public class HomeActivity extends AppCompatActivity implements RadioGroup.OnChec
         ImageButton home_logout_btn = findViewById(R.id.home_logout_btn);
         home_logout_btn.setOnClickListener(this);
 
-        ViewPager viewPager = findViewById(R.id.home_vp);
-        HomePagerAdapter adapter = new HomePagerAdapter(this);
-        viewPager.setAdapter(adapter);
+
+
+
         this.home_dot_calorie = findViewById(R.id.home_dot_calorie);
         this.home_dot_macro = findViewById(R.id.home_dot_macro);
+
+
+
+    }
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+        mHelper = NutriPalDBHelper.getInstance(this);
+        mHelper.openWriteLink();
+        mHelper.openReadLink();
+        String currentUsername = getIntent().getStringExtra("currentUsername");
+        mHelper.setCurrentUsername(currentUsername);
+        viewPager = findViewById(R.id.home_vp);
+        User currentUser = mHelper.getUser(mHelper.getCurrentUsername());
+        adapter = new HomePagerAdapter(this,currentUser, mHelper);
+        viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -77,17 +109,6 @@ public class HomeActivity extends AppCompatActivity implements RadioGroup.OnChec
     }
 
     @Override
-    protected void onStart() {
-
-        super.onStart();
-        mHelper = NutriPalDBHelper.getInstance(this);
-        mHelper.openWriteLink();
-        mHelper.openReadLink();
-        String currentUsername = getIntent().getStringExtra("currentUsername");
-        mHelper.setCurrentUsername(currentUsername);
-    }
-
-    @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (checkedId == R.id.home_diary_btn) {
             Intent intent = new Intent(HomeActivity.this, MealsActivity.class);
@@ -103,6 +124,7 @@ public class HomeActivity extends AppCompatActivity implements RadioGroup.OnChec
         }
     }
 
+
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.home_logout_btn){
@@ -111,4 +133,21 @@ public class HomeActivity extends AppCompatActivity implements RadioGroup.OnChec
             Toast.makeText(getApplicationContext(), "Successfully Logout!", Toast.LENGTH_SHORT).show();
         }
     }
+
+//    private void updatePage(){
+//        int foodCalories = mHelper.calculateCalories();
+//        User currentUser = mHelper.getUser(mHelper.getCurrentUsername());
+//        int targetCalories = calculateDailyCaloriesUtil.calculateCalories(currentUser.target_weight, currentUser.height, currentUser.age);
+//        home_calories_target_tv = caloriesCardView.findViewById(R.id.home_calories_target_tv);
+//        home_calories_target_tv.setText(String.valueOf(targetCalories));
+//        home_food_tv = caloriesCardView.findViewById(R.id.home_food_tv);
+//        Log.d("tag:llxl", "现在才输出？？？" + String.valueOf(R.string.addFood));
+//        home_food_tv.setText(R.string.addFood);
+//        ScrollView scrollview = findViewById(R.id.scrollview);
+//        adapter.notifyDataChanged();
+//
+//
+//    }
+
+
 }

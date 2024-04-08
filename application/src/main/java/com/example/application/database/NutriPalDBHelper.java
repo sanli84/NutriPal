@@ -370,4 +370,23 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
 
         return nutritionMap;
     }
+
+    public int calculateCalories(){
+
+        int totalCalories = 0;
+
+        String currentDate = (LocalDate.now()).toString();
+        String currentUserName = mHelper.getCurrentUsername();
+        Cursor cursor = mRDB.query(TABLE_NAME_MEALS, null, "date=? AND user_name=?", new String[]{currentDate, currentUserName}, null, null, null);
+        while (cursor.moveToNext()) {
+            Food tempFood = new Food();
+            tempFood.quantity = cursor.getDouble(9);
+            tempFood.calories = cursor.getInt(5);
+
+            totalCalories += (int) (tempFood.quantity * tempFood.calories);
+
+        }
+
+        return totalCalories;
+    }
 }

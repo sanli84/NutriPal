@@ -18,25 +18,19 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.application.database.NutriPalDBHelper;
 import com.example.application.entity.Food;
 import com.example.application.entity.User;
 import com.example.application.util.ParseFoodString;
 import com.example.application.util.ToastUtil;
-import com.example.application.util.calclateDailyCaloriesUtil;
+import com.example.application.util.calculateDailyCaloriesUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -321,7 +315,7 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
         updateLunch();
         updateDinner();
         User currentUser = mHelper.getUser(mHelper.getCurrentUsername());
-        int caloriesDailyNeeded = calclateDailyCaloriesUtil.calculateCalories(currentUser.target_weight, currentUser.height, currentUser.age);
+        int caloriesDailyNeeded = calculateDailyCaloriesUtil.calculateCalories(currentUser.target_weight, currentUser.height, currentUser.age);
         caloriesDaily_tv.setText(String.valueOf(caloriesDailyNeeded));
         int caloriesBreakfast = Integer.parseInt(caloriesBreakfastNum_tv.getText().toString());
         int caloriesLunch = Integer.parseInt(caloriesLunchNum_tv.getText().toString());

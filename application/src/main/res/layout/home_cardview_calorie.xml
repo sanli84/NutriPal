@@ -52,6 +52,7 @@
                         android:background="@drawable/icon_flag" />
 
                     <TextView
+                        android:id="@+id/home_calories_target_tv"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/home_target"
@@ -71,6 +72,7 @@
                         android:background="@drawable/icon_food" />
 
                     <TextView
+                        android:id="@+id/home_food_tv"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/home_food"
