@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -19,10 +20,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.application.database.NutriPalDBHelper;
+
 public class HomeActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
 
     private ImageView home_dot_calorie;
     private ImageView home_dot_macro;
+    private NutriPalDBHelper mHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +77,29 @@ public class HomeActivity extends AppCompatActivity implements RadioGroup.OnChec
     }
 
     @Override
+    protected void onStart() {
+
+        super.onStart();
+        mHelper = NutriPalDBHelper.getInstance(this);
+        mHelper.openWriteLink();
+        mHelper.openReadLink();
+        String currentUsername = getIntent().getStringExtra("currentUsername");
+        mHelper.setCurrentUsername(currentUsername);
+    }
+
+    @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        if(checkedId == R.id.home_diary_btn){
-            startActivity(new Intent(HomeActivity.this, MealsActivity.class));
+        if (checkedId == R.id.home_diary_btn) {
+            Intent intent = new Intent(HomeActivity.this, MealsActivity.class);
+            String currentUsername = mHelper.getCurrentUsername();
+            Log.d("tag:llxl", "from profile to home: "+ currentUsername);
+            intent.putExtra("currentUsername", currentUsername);
+            startActivity(intent);
         } else if (checkedId == R.id.home_profile_btn) {
-            startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+            String currentUsername = mHelper.getCurrentUsername();
+            intent.putExtra("currentUsername", currentUsername);
+            startActivity(intent);
         }
     }
 

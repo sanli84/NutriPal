@@ -225,7 +225,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStop() {
         super.onStop();
-        mHelper.closeLink();
+//        mHelper.closeLink();
     }
 
 
@@ -638,7 +638,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         String testUsername = mHelper.getCurrentUsername();
         Log.d("llxl", String.format("current username is %s", testUsername));
-        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+        String currentUsername = mHelper.getCurrentUsername();
+        Log.d("tag:llxl", "from profile to home: "+ currentUsername);
+        intent.putExtra("currentUsername", currentUsername);
+        startActivity(intent);
         Toast.makeText(getApplicationContext(), "Successfully Login!", Toast.LENGTH_SHORT).show();
 
         String username = username_et.getText().toString();

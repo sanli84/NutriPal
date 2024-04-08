@@ -70,6 +70,7 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meals);
 
+
         RadioGroup guide_rg = findViewById(R.id.meals_guide_rg);
         guide_rg.setOnCheckedChangeListener(this);
         RadioButton meals_diary_btn = findViewById(R.id.meals_diary_btn);
@@ -94,15 +95,24 @@ public class MealsActivity extends AppCompatActivity implements RadioGroup.OnChe
         mHelper = NutriPalDBHelper.getInstance(this);
         mHelper.openWriteLink();
         mHelper.openReadLink();
+        String currentUsername = getIntent().getStringExtra("currentUsername");
+        mHelper.setCurrentUsername(currentUsername);
         updatePage();
     }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (checkedId == R.id.meals_home_btn) {
-            startActivity(new Intent(MealsActivity.this, HomeActivity.class));
+            Intent intent = new Intent(MealsActivity.this, HomeActivity.class);
+            String currentUsername = mHelper.getCurrentUsername();
+            Log.d("tag:llxl", "from profile to home: "+ currentUsername);
+            intent.putExtra("currentUsername", currentUsername);
+            startActivity(intent);
         } else if (checkedId == R.id.meals_profile_btn) {
-            startActivity(new Intent(MealsActivity.this, ProfileActivity.class));
+            Intent intent = new Intent(MealsActivity.this, ProfileActivity.class);
+            String currentUsername = mHelper.getCurrentUsername();
+            intent.putExtra("currentUsername", currentUsername);
+            startActivity(intent);
         }
     }
 

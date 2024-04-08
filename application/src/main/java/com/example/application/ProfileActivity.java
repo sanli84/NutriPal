@@ -104,7 +104,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         mHelper = NutriPalDBHelper.getInstance(this);
         mHelper.openWriteLink();
         mHelper.openReadLink();
-
+        String currentUsername = getIntent().getStringExtra("currentUsername");
+        mHelper.setCurrentUsername(currentUsername);
 
         profile_username_et.setText(mHelper.getCurrentUsername());
         User currentUser = mHelper.getUser(mHelper.getCurrentUsername());
@@ -129,7 +130,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onStop() {
         super.onStop();
-        mHelper.closeLink();
+//        mHelper.closeLink();
     }
 
     @Override
@@ -270,9 +271,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (checkedId == R.id.profile_home_btn) {
-            startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
+            Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
+            String currentUsername = mHelper.getCurrentUsername();
+            Log.d("tag:llxl", "from profile to home: "+ currentUsername);
+            intent.putExtra("currentUsername", currentUsername);
+            startActivity(intent);
         } else if (checkedId == R.id.profile_diary_btn) {
-            startActivity(new Intent(ProfileActivity.this, MealsActivity.class));
+            Intent intent = new Intent(ProfileActivity.this, MealsActivity.class);
+            String currentUsername = mHelper.getCurrentUsername();
+            intent.putExtra("currentUsername", currentUsername);
+            startActivity(intent);
         }
     }
 
