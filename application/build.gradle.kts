@@ -35,7 +35,10 @@ android {
         exclude("META-INF/NOTICE.md")
         exclude("META-INF/LICENSE.md")
     }
+
+
 }
+
 
 dependencies {
 
@@ -48,6 +51,7 @@ dependencies {
     implementation("com.sun.mail:android-mail:1.6.6")
     implementation("com.sun.mail:android-activation:1.6.7")
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

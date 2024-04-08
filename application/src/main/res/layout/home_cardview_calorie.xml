@@ -90,6 +90,7 @@
                         android:background="@drawable/icon_exercise" />
 
                     <TextView
+                        android:id="@+id/home_calories_exercise_tv"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/home_exercise"

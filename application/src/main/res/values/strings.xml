@@ -80,10 +80,7 @@
     <string name="forget_hint">Input your username</string>
     <string name="setPW_title">Set your new password</string>
     <string name="setPW_newPW">new password</string>
-
-
-
-
+    <string name="example_exercise_calories">\tExercise\t\t374</string>
 
 
 </resources>

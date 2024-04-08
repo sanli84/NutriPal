@@ -79,6 +79,8 @@ public class HomePagerAdapter extends PagerAdapter {
             int foodCalories = mHelper.calculateCalories();
             TextView home_food_tv= caloriesCardView.findViewById(R.id.home_food_tv);
             home_food_tv.setText(String.format("\tFood\t\t\t\t%s",foodCalories));
+            TextView home_calories_exercise_tv = caloriesCardView.findViewById(R.id.home_calories_exercise_tv);
+            home_calories_exercise_tv.setText(R.string.example_exercise_calories);
             view = caloriesCardView;
             container.addView(view);
         } else {
