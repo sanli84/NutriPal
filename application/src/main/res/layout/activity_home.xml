@@ -311,17 +311,20 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
 
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:padding="6dp">
+                    android:layout_height="match_parent"
+                    android:padding="6dp"
+                    android:layout_marginEnd="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
+                        android:layout_height="match_parent"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -349,12 +352,12 @@
 
                             <Button
                                 android:id="@+id/home_addWeight_btn"
-                                android:layout_width="90dp"
+                                android:layout_width="80dp"
                                 android:layout_height="40dp"
-                                android:layout_marginStart="90dp"
+                                android:layout_marginStart="60dp"
                                 android:background="@drawable/add_food_btn_border"
                                 android:text="@string/home_addWeight"
-                                style="@style/ButtonStyle_meals"/>
+                                style="@style/ButtonStyle_weight"/>
 
                         </LinearLayout>
 
@@ -362,6 +365,7 @@
                             android:id="@+id/line_chart"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_marginEnd="30dp"
                             android:layout_marginTop="20dp"/>
 
                     </LinearLayout>

@@ -38,6 +38,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -185,7 +186,6 @@ public class HomeActivity extends AppCompatActivity implements RadioGroup.OnChec
         List<Float> weightData = new ArrayList<>();
         List<String> dateData = new ArrayList<>();
 
-        Random random = new Random();
         for (int i = 0; i < 5; i++) {
             //days to today
             float weight = mHelper.getWeight(4-i);
@@ -204,7 +204,7 @@ public class HomeActivity extends AppCompatActivity implements RadioGroup.OnChec
         for (int i = 0; i < 5; i++) {
             //days to today
             if (weightData.get(i) == 0){
-                weightData.set(i,lastWeight);
+                weightData.set(i,(float)60 + i);
             }
 
 
@@ -235,8 +235,11 @@ public class HomeActivity extends AppCompatActivity implements RadioGroup.OnChec
             values.add(new PointValue(i, weightData.get(i))); // 添加体重数据
         }
 
+
+
         Line line = new Line(values).setColor(ContextCompat.getColor(this, R.color.cyan_blue)).setCubic(true); // 创建线条对象
         line.setCubic(false);//设置为直线
+
         List<Line> lines = new ArrayList<>();
         lines.add(line);
 
@@ -246,8 +249,7 @@ public class HomeActivity extends AppCompatActivity implements RadioGroup.OnChec
         Axis xAxis = new Axis();
         xAxis.setValues(axisValues);
         xAxis.setName("Date");
-        data.setAxisXBottom(xAxis);
-
+        data.setAxisXBottom(xAxis); // 设置X轴在底部显示
         // Y轴是根据数据的大小自动设置Y轴上限(在下面我会给出固定Y轴数据个数的解决方案)
         Axis axisY = new Axis();  //Y轴
         axisY.setName("");//y轴标注
