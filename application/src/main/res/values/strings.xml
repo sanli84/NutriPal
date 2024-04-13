@@ -42,11 +42,11 @@
     <string name="home_food">\tFood\t\t\t\t%s%s%s</string>
     <string name="home_exercise">\tExercise\t\t%s%s%s</string>
     <string name="home_exercise_word">exercise</string>
-    <string name="home_exercise_calorie">\tcalorie</string>
-    <string name="home_exercise_hour">\thour</string>
+    <string name="home_exercise_calorie">\t374\t\tcalorie</string>
+    <string name="home_exercise_hour">\t1.5\t\thour</string>
     <string name="home_steps_word">steps</string>
-    <string name="home_steps_steps">\tsteps</string>
-    <string name="home_steps_target">target:\t</string>
+    <string name="home_steps_steps">\t4647\t\tsteps</string>
+    <string name="home_steps_target">\t\t\t\t\ttarget:10000\t</string>
     <string name="home_weight_word">weight</string>
     <string name="home_weight_inpast">in\tpast\t90\tdays</string>
     <string name="meals_remaining">REMAINING CALORIES</string>
@@ -81,6 +81,9 @@
     <string name="setPW_title">Set your new password</string>
     <string name="setPW_newPW">new password</string>
     <string name="example_exercise_calories">\tExercise\t\t374</string>
+    <string name="home_addWeight">Add Weight</string>
+    <string name="home_inputWeight">Input Weight</string>
+
 
 
 </resources>

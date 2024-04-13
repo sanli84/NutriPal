@@ -172,6 +172,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 ToastUtil.show(this, "Update successfully");
 
             }
+            if (mHelper.getWeight(0) != 0){
+                mHelper.updateWeight(real_weight);
+            }else mHelper.insertWeight(user.name, real_weight);
+
+
 
 
         }

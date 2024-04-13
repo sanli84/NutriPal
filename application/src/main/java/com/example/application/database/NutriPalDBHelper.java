@@ -29,6 +29,7 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME_USER_INFO = "user_info";
     private static final String TABLE_NAME_USER_PASSWORD = "user_password";
     private static final String TABLE_NAME_MEALS = "meals";
+    private static final String TABLE_NAME_WEIGHT = "weight";
 
     private SQLiteDatabase mRDB = null;
     private SQLiteDatabase mWDB = null;
@@ -105,10 +106,17 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
                 " quantity DOUBLE NOT NULL," +
                 " date VARCHAR NOT NULL);";
 
+        String sql_weight = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_WEIGHT + " (" +
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                " user_name VARCHAR NOT NULL," +
+                " date VARCHAR NOT NULL," +
+                " weight FLOAT NOT NULL);";
+
 
         db.execSQL(sql);
         db.execSQL(sql_pw);
         db.execSQL(sql_meals);
+        db.execSQL(sql_weight);
     }
 
     public boolean userExistsInDatabase(String userName) {
@@ -251,6 +259,41 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    public float getWeight(int days) {
+        String username = mHelper.getCurrentUsername();
+        LocalDate daysBefore = LocalDate.now().minusDays(days);
+
+        Cursor cursor = mRDB.query(TABLE_NAME_WEIGHT, null, "user_name=? AND date=?", new String[]{username, daysBefore.toString()}, null, null, null);
+        while (cursor.moveToNext()) {
+
+            return cursor.getFloat(3);
+        }
+        return 0;
+    }
+
+    public void insertWeight(String username, int weight){
+        ContentValues values = new ContentValues();
+        values.put("user_name", username);
+        values.put("weight", weight);
+        values.put("date", LocalDate.now().toString());
+        mWDB.insert(TABLE_NAME_WEIGHT, null, values);
+    }
+
+    public void updateWeight(int weight){
+        ContentValues values = new ContentValues();
+        values.put("user_name", current_username);
+        values.put("weight", weight);
+        values.put("date", LocalDate.now().toString());
+        mWDB.update(TABLE_NAME_WEIGHT, values, "user_name=? AND date=?", new String[]{current_username, LocalDate.now().toString()});
+
+        ContentValues infoValues = new ContentValues();
+        infoValues.put("name", current_username);
+        infoValues.put("real_weight", weight);
+        mWDB.update(TABLE_NAME_USER_INFO, infoValues, "name=?", new String[]{current_username});
+
+
+    }
+
     public void deleteUser(String username) {
         mWDB.delete(TABLE_NAME_USER_INFO, "name=?", new String[]{username});
         mWDB.delete(TABLE_NAME_USER_PASSWORD, "user_name=?", new String[]{username});
@@ -388,5 +431,31 @@ public class NutriPalDBHelper extends SQLiteOpenHelper {
         }
 
         return totalCalories;
+    }
+
+    public List<Double> calculateMacroNutrition(){
+        List<Double> macroNutritionList = new ArrayList<>();
+
+        double totalFat = 0;
+        double totalCarbs = 0;
+        double totalProtein = 0;
+        String currentDate = (LocalDate.now()).toString();
+        String currentUserName = mHelper.getCurrentUsername();
+        Cursor cursor = mRDB.query(TABLE_NAME_MEALS, null, "date=? AND user_name=?", new String[]{currentDate, currentUserName}, null, null, null);
+        while (cursor.moveToNext()) {
+            Food tempFood = new Food();
+            tempFood.quantity = cursor.getDouble(9);
+            tempFood.fat = cursor.getDouble(6);
+            tempFood.carbs = cursor.getDouble(6);
+            tempFood.protein = cursor.getDouble(7);
+            totalFat += (int) (tempFood.quantity * tempFood.fat);
+            totalCarbs += (int) (tempFood.quantity * tempFood.carbs);
+            totalProtein += (int) (tempFood.quantity * tempFood.protein);
+        }
+        macroNutritionList.add(0, totalFat);
+        macroNutritionList.add(1, totalCarbs);
+        macroNutritionList.add(2, totalProtein);
+
+        return macroNutritionList;
     }
 }

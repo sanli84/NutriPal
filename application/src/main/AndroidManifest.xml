@@ -12,24 +12,26 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.NutriPal">
         <activity
-            android:name=".charts.TestChart"
+            android:name=".HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".charts.TestChart"
             android:exported="true"
-            android:theme="@style/Base.Theme.NutriPal"></activity>
+            android:theme="@style/Base.Theme.NutriPal"/>
         <activity
             android:name=".ProfileActivity"
             android:exported="true"
-            android:theme="@style/Base.Theme.NutriPal"></activity>
+            android:theme="@style/Base.Theme.NutriPal"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Base.Theme.NutriPal"></activity>
+            android:theme="@style/Base.Theme.NutriPal"/>
         <activity
             android:name=".MealsActivity"
             android:exported="true"
-            android:theme="@style/Base.Theme.NutriPal"></activity>
+            android:theme="@style/Base.Theme.NutriPal" />
+
+
         <activity
             android:name=".LoginActivity"
             android:exported="true"

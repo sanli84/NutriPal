@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="170dp">
+        android:layout_height="200dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="30dp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -107,22 +107,10 @@
                 android:orientation="vertical"
                 android:padding="15dp">
 
-                <ImageView
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/ring" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/home_child_font"
-                    android:gravity="center"
-                    android:text="%s%s%s%s\nsurplus"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp" />
+                <lecho.lib.hellocharts.view.PieChartView
+                    android:id="@+id/calories_pie_chart"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
 
 
             </RelativeLayout>

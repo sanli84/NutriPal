@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="170dp">
+        android:layout_height="200dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,9 +32,8 @@
                 android:layout_height="wrap_content"
                 android:rowCount="3"
                 android:columnCount="3"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -63,26 +62,23 @@
                     android:textColor="@color/orange"
                     android:textSize="20sp"/>
 
-                <ImageView
+                <lecho.lib.hellocharts.view.PieChartView
+                    android:id="@+id/macro_fat_pie_chart"
                     android:layout_width="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_height="60dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ring" />
+                    android:layout_height="110dp"
+                    android:layout_columnWeight="1" />
 
-                <ImageView
+                <lecho.lib.hellocharts.view.PieChartView
+                    android:id="@+id/macro_protein_pie_chart"
                     android:layout_width="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_height="60dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ring" />
+                    android:layout_height="110dp"
+                    android:layout_columnWeight="1" />
 
-                <ImageView
+                <lecho.lib.hellocharts.view.PieChartView
+                    android:id="@+id/macro_carbs_pie_chart"
                     android:layout_width="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_height="60dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ring" />
+                    android:layout_height="110dp"
+                    android:layout_columnWeight="1" />
 
             </GridLayout>
 
