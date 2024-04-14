@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">application</string>
     <string name="unfilled">unfilled</string>
+    <string name="birth_unfilled">\tunfilled</string>
     <string name="Save">Save</string>
     <string name="Cancel">Cancel</string>
     <string name="Verify">Verify</string>
@@ -48,7 +49,7 @@
     <string name="home_steps_steps">\t4647\t\tsteps</string>
     <string name="home_steps_target">\t\t\t\t\ttarget:10000\t</string>
     <string name="home_weight_word">weight</string>
-    <string name="home_weight_inpast">in\tpast\t90\tdays</string>
+    <string name="home_weight_inpast">in\tpast\t5\tdays</string>
     <string name="meals_remaining">REMAINING CALORIES</string>
     <string name="meals_minus">-</string>
     <string name="meals_plus">+</string>
@@ -65,6 +66,7 @@
     <string name="meals_dinner_word">Dinner</string>
     <string name="guide_home">Home</string>
     <string name="guide_diary">Diary</string>
+    <string name="guide_profile">Profile</string>
     <string name="home_macronutrients_word">Macronutrients</string>
     <string name="profile_personal_info">Personal Information</string>
     <string name="profile_username">Username</string>

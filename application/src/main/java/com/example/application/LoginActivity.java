@@ -541,7 +541,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public String buttonSendEmail(String targetEmail) {
 
-        Random random = new Random();
         String randomNumber = generateRandomNumber(6);
 
         try {

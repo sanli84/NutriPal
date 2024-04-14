@@ -43,7 +43,7 @@ import com.example.application.util.ToastUtil;
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, RadioGroup.OnCheckedChangeListener {
 
     private DatePicker dp_date;
-    private EditText profile_username_et;
+    private  TextView profile_username_et;
     private EditText profile_age_tv;
     private TextView profile_birth_tv;
     private TextView profile_weight_tv;

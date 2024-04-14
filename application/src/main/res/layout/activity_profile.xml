@@ -35,9 +35,8 @@
                     android:text="@string/profile_username"
                     />
 
-                <EditText
+                <TextView
                     android:id="@+id/profile_username_et"
-                    android:inputType="text"
                     style="@style/ProfileEditTextStyle"
                     android:maxLength="20"/>
 
@@ -79,9 +78,9 @@
                     android:layout_width="70dp"
                     style="@style/ProfileEditTextStyle"
                     android:maxLength="25"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="25dp"
                     android:maxLines="1"
-                    android:text="@string/unfilled"/>
+                    android:text="@string/birth_unfilled"/>
 
             </RelativeLayout>
 
@@ -282,7 +281,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="62dp"
-                android:text="@string/guide_diary"
+                android:text="@string/guide_profile"
                 android:textSize="15sp" />
 
         </LinearLayout>

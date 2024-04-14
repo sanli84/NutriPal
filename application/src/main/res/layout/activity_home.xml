@@ -376,8 +376,6 @@
             </androidx.cardview.widget.CardView>
 
 
-
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="400dp" />
@@ -457,7 +455,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="62dp"
-                android:text="@string/guide_diary"
+                android:text="@string/guide_profile"
                 android:textSize="15sp" />
 
         </LinearLayout>
